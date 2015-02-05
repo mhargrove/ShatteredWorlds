@@ -17,6 +17,8 @@ int16_t gx, gy, gz;
 #define LED_PIN 13
 bool blinkState = false;
 
+int initVal; 
+
 
 void setup() {
     // join I2C bus (I2Cdev library doesn't do this automatically)
@@ -37,7 +39,8 @@ void setup() {
     Serial.println("Testing device connections...");
     Serial.println(accelgyro.testConnection() ? "MPU6050 connection successful" : "MPU6050 connection failed");
     
-
+    accelgyro.getMotion6(&ax, &ay, &az, &gx, &gy, &gz);
+    initVal = ax; 
     }
     
 void loop() {
@@ -47,10 +50,16 @@ void loop() {
 
     #ifdef OUTPUT_READABLE_ACCELGYRO
         // display tab-separated accel/gyro x/y/z values
-        Serial.print("a/g:\t");
-        Serial.print(ax); Serial.print("\t");
-        Serial.print(ay); Serial.print("\t");
-        Serial.print(az); Serial.print("\t");
+        //Serial.print("a/g:\t");
+        if(ax <= (initVal - 200)){
+          Serial.print(-1); Serial.print("\t");  
+        }
+        else if(ax >= (initVal + 200)){
+          Serial.print(1); Serial.print("\t"); 
+        }
+        else{
+          Serial.print(0); Serial.print("\t"); 
+        }       
         if (sensorValue >= 100) {
           Serial.println(1);
         }
@@ -58,10 +67,11 @@ void loop() {
           Serial.println(0);
         }
         delay(1000); 
+//        Serial.print(ax); Serial.print("\t");
+//        Serial.print(ay); Serial.print("\t");
+//        Serial.print(az); Serial.print("\t");
 //        Serial.print(gx); Serial.print("\t");
 //        Serial.print(gy); Serial.print("\t");
 //        Serial.println(gz);
     #endif
-
-
 }
