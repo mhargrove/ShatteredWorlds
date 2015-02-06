@@ -32,12 +32,12 @@ void setup() {
     Serial.begin(9600);
 
     // initialize acc device
-    Serial.println("Initializing I2C devices...");
+    //Serial.println("Initializing I2C devices...");
     accelgyro.initialize();
 
     // verify accel connection
-    Serial.println("Testing device connections...");
-    Serial.println(accelgyro.testConnection() ? "MPU6050 connection successful" : "MPU6050 connection failed");
+//    Serial.println("Testing device connections...");
+//    Serial.println(accelgyro.testConnection() ? "MPU6050 connection successful" : "MPU6050 connection failed");
     
     accelgyro.getMotion6(&ax, &ay, &az, &gx, &gy, &gz);
     initVal = ax; 
@@ -52,7 +52,7 @@ void loop() {
         // display tab-separated accel/gyro x/y/z values
         //Serial.print("a/g:\t");
         if(ax <= (initVal - 200)){
-          Serial.print(-1); Serial.print("\t");  
+          Serial.print(2); Serial.print("\t");  
         }
         else if(ax >= (initVal + 200)){
           Serial.print(1); Serial.print("\t"); 
