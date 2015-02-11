@@ -45,28 +45,14 @@ void setup() {
     
 void loop() {
     // read raw accel/gyro measurements from device
-    accelgyro.getMotion6(&ax, &ay, &az, &gx, &gy, &gz);
-    int sensorValue = analogRead(A0);
+
 
     #ifdef OUTPUT_READABLE_ACCELGYRO
         // display tab-separated accel/gyro x/y/z values
         //Serial.print("a/g:\t");
-        if(ax <= (initVal - 200)){
-          Serial.print(2); Serial.print("\t");  
-        }
-        else if(ax >= (initVal + 200)){
-          Serial.print(1); Serial.print("\t"); 
-        }
-        else{
-          Serial.print(0); Serial.print("\t"); 
-        }       
-        if (sensorValue >= 100) {
-          Serial.println(1);
-        }
-        if (sensorValue == 0) {
+
           Serial.println(0);
-        }
-        delay(1000); 
+
 //        Serial.print(ax); Serial.print("\t");
 //        Serial.print(ay); Serial.print("\t");
 //        Serial.print(az); Serial.print("\t");
