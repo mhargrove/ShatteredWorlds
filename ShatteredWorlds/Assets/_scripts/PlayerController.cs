@@ -15,25 +15,17 @@ public class PlayerController : MonoBehaviour {
 	}
 	void ConfigurePins()
 	{
-		arduino.pinMode (13, PinMode.OUTPUT);
+		arduino.pinMode (0, PinMode.ANALOG);
+		arduino.reportAnalog(0, 1);
 	}
 
-	IEnumerator FootSensor()
-	{
-		while (true) {
-			arduino.digitalWrite(13, Arduino.HIGH);
-			yield return new WaitForSeconds(1);
-			arduino.digitalWrite(13, Arduino.LOW);
-			yield return new WaitForSeconds(1);
-		}
-	}
 
 	void Update()
 	{
-		if (Input.GetKeyDown ("space"))
-			arduino.digitalWrite (13, Arduino.HIGH);
-		if (Input.GetKeyDown ("c"))
-			arduino.digitalWrite (13, Arduino.LOW);
+		int footPedal = arduino.analogRead (0);
+
+		if (footPedal > 0)
+            this.rigidbody.AddForce(new Vector3(2.0f,0.0f,0.0f));
 	}
 	
 	void OnDataReceived(string message)

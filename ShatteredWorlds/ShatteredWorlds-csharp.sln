@@ -1,9 +1,9 @@
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2008
 
-Project("{D778306E-FA5B-C3D2-B7E0-A895351C377E}") = "ShatteredWorlds", "Assembly-CSharp.csproj", "{C9E63DBA-3824-1B43-1A36-AD6BE2B6EA67}"
+Project("{D778306E-FA5B-C3D2-B7E0-A895351C377E}") = "ShatteredWorlds", "Assembly-CSharp-vs.csproj", "{C9E63DBA-3824-1B43-1A36-AD6BE2B6EA67}"
 EndProject
-Project("{D778306E-FA5B-C3D2-B7E0-A895351C377E}") = "ShatteredWorlds", "Assembly-CSharp-Editor.csproj", "{EE09D986-2C8F-9AE2-3A79-EFB6BBF8DE0C}"
+Project("{D778306E-FA5B-C3D2-B7E0-A895351C377E}") = "ShatteredWorlds", "Assembly-CSharp-Editor-vs.csproj", "{EE09D986-2C8F-9AE2-3A79-EFB6BBF8DE0C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,7 +23,7 @@ Global
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
-															GlobalSection(MonoDevelopProperties) = preSolution
+																		GlobalSection(MonoDevelopProperties) = preSolution
 		StartupItem = Assembly-CSharp.csproj
 		Policies = $0
 		$0.TextStylePolicy = $1
