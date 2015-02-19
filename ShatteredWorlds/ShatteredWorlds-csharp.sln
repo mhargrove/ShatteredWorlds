@@ -1,6 +1,8 @@
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2008
 
+Project("{D778306E-FA5B-C3D2-B7E0-A895351C377E}") = "ShatteredWorlds", "Assembly-CSharp-firstpass-vs.csproj", "{4943FE3E-CC35-0BB3-F81A-EF90785096D5}"
+EndProject
 Project("{D778306E-FA5B-C3D2-B7E0-A895351C377E}") = "ShatteredWorlds", "Assembly-CSharp-vs.csproj", "{C9E63DBA-3824-1B43-1A36-AD6BE2B6EA67}"
 EndProject
 Project("{D778306E-FA5B-C3D2-B7E0-A895351C377E}") = "ShatteredWorlds", "Assembly-CSharp-Editor-vs.csproj", "{EE09D986-2C8F-9AE2-3A79-EFB6BBF8DE0C}"
@@ -11,6 +13,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4943FE3E-CC35-0BB3-F81A-EF90785096D5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4943FE3E-CC35-0BB3-F81A-EF90785096D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4943FE3E-CC35-0BB3-F81A-EF90785096D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4943FE3E-CC35-0BB3-F81A-EF90785096D5}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C9E63DBA-3824-1B43-1A36-AD6BE2B6EA67}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C9E63DBA-3824-1B43-1A36-AD6BE2B6EA67}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C9E63DBA-3824-1B43-1A36-AD6BE2B6EA67}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -23,7 +29,7 @@ Global
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
-																		GlobalSection(MonoDevelopProperties) = preSolution
+																													GlobalSection(MonoDevelopProperties) = preSolution
 		StartupItem = Assembly-CSharp.csproj
 		Policies = $0
 		$0.TextStylePolicy = $1
