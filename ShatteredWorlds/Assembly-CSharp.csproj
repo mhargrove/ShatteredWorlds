@@ -48,6 +48,7 @@
   <ItemGroup>
      <Compile Include="Assets\Scripts\GameController.cs" />
      <Compile Include="Assets\Scripts\Movement.cs" />
+     <Compile Include="Assets\Scripts\ObjectGenerator.cs" />
      <Compile Include="Assets\Scripts\PlayerController.cs" />
      <Compile Include="Assets\Scripts\SplashController.cs" />
      <Compile Include="Assets\Uniduino\Scripts\Arduino.Firmata.cs" />
