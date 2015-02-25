@@ -15,7 +15,6 @@ sysinfo.txt
 /*.userprefs
 /*.pidb
 /*.booproj
-/*.meta
 
 # OS X generated
 .DS_Store*
