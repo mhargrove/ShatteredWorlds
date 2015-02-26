@@ -21,7 +21,10 @@ public class PlayerController : MonoBehaviour {
 		float moveHorizontal = Input.GetAxis("Horizontal");
 		float moveVertical = Input.GetAxis ("Vertical");
 		Vector3 movement = new Vector3 (moveHorizontal * 10.0f, 0.0f, moveVertical * 10.0f);
-		rigidbody.AddForce (movement);
+		if (moveHorizontal != 0 || moveVertical != 0)
+			rigidbody.AddForce (movement);
+		else
+			rigidbody.Sleep (); 
 	}
 
 }
