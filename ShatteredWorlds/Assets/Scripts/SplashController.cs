@@ -3,7 +3,7 @@ using System.Collections;
 
 public class SplashController : MonoBehaviour {
 	public float timer = 3f;
-	public string levelToLoad = "Level1";
+	public string levelToLoad = "Test";
 	// Use this for initialization
 	void Start () {
 		StartCoroutine ("DisplayScene");
