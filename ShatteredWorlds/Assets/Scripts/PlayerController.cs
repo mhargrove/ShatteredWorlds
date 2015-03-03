@@ -28,10 +28,11 @@ public class PlayerController : MonoBehaviour {
 		print (moveHorizontal); 
 		float moveVertical = Input.GetAxis ("Vertical");
 		Vector3 movement = new Vector3 (moveHorizontal*0.1f, 0.0f, moveVertical * 10.0f);
+
 		if (moveHorizontal != 0 || moveVertical != 0)
 			rigidbody.AddForce (movement);
 		else
 			rigidbody.Sleep (); 
 	}
-
+	
 }

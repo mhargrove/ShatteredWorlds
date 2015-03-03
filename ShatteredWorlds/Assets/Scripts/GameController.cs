@@ -19,6 +19,7 @@ public class GameController : MonoBehaviour {
 	{
 		int footPedal = arduino.analogRead (0);
 
+
 	}
 
 	void SetupArduino ()
@@ -30,6 +31,12 @@ public class GameController : MonoBehaviour {
 	{
 		arduino.pinMode (0, PinMode.ANALOG);
 	}
+
+	void showPauseScreen()
+	{
+
+	}
+
 
 
 }
