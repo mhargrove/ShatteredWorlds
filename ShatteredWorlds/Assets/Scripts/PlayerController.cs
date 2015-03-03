@@ -24,8 +24,9 @@ public class PlayerController : MonoBehaviour {
 	void Update()
 	{  
 		bool moveH = true;
+		bool moveV = true;
 		float moveHorizontal = arduinoController.readAccelerometer().y;
-		if (moveHorizontal > -1000.0f && moveHorizontal < 1000.0f) {
+		if (moveHorizontal > -1000.0f && moveHorizontal < 1000.0f && moveV == false) {
 			moveH = false;
 			rigidbody.Sleep ();
 		} else if (moveHorizontal > 1000.0f)
@@ -38,10 +39,12 @@ public class PlayerController : MonoBehaviour {
 		int rightFoot = arduinoController.readRightFootpad ();
 
 		//forward movement, foot sensors	 
-		moveUp = new Vector3 (0.0f, 0.0f, 100.0f);
+		moveUp = new Vector3 (0.0f, 0.0f, 70.0f);
 		if (leftFoot == 1 && rightFoot == 1 && moveH == false) {
+			moveV = false;
 			rigidbody.Sleep ();
 		} else if (leftFoot == 0 && rightFoot == 0 && moveH == false) {
+			moveV = false;
 			rigidbody.Sleep ();
 		} else if (leftFoot == 1 && rightFoot == 0)
 			rigidbody.AddForce (moveUp);
