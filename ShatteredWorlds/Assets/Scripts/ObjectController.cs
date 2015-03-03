@@ -7,19 +7,24 @@ public class ObjectController : MonoBehaviour {
 	public Transform lightPrefab;
 	public GameObject audioController;
 
-	void Start () {
-		audioController = GameObject.Find( "audioController" );
-	
+	void Start () 
+	{
+		// All interactions with objects that have sound can have the sounds played throguh the audioController
+		audioController = GameObject.Find( "AudioController" );
 	}
 	
 	// Update is called once per frame
 	void Update () {
-	
 	}
 
+	//Detect Collision Between attached object and the colliding gameojbect
 	void OnCollisionEnter(Collision collision)
 	{
+
+		//TODO: Create case statements for all object tags, ex; "Trees, Rocks, etc." 
+		//TODO: Assign collision details to each case statement
 		Debug.Log ("Collision Detected with " + collision.gameObject.tag);
+		//Collision with the player
 		if (collision.gameObject.tag == "Player") 
 		{
 			ContactPoint contact = collision.contacts[0];
@@ -27,8 +32,9 @@ public class ObjectController : MonoBehaviour {
 			Vector3 pos = contact.point;
 			pos.y = pos.y + 1f;
 			Instantiate (lightPrefab, pos, rot);
-			audioController.GetComponent<AudioController>().audio.Play ();
 			Destroy(gameObject);
+			audioController.GetComponent<AudioController> ().playTreeExplosionSfx ();
+
 		}
 
 
