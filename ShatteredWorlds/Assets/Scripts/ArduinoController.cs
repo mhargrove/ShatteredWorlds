@@ -44,6 +44,11 @@ public class ArduinoController : MonoBehaviour {
 	 */
 	void Update()
 	{
+		readArduinoData ();
+	}
+
+	public void readArduinoData()
+	{
 		try{
 			print (inputStream.ReadLine ());
 			string[] str = inputStream.ReadLine ().Split(',');
@@ -61,6 +66,7 @@ public class ArduinoController : MonoBehaviour {
 			print ("Error communicating with Arduino."+e.Message); 
 		}
 	}
+
 
 
 	public int getArduinoID(){

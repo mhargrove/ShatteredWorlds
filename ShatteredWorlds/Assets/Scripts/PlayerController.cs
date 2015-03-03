@@ -8,12 +8,13 @@ public class PlayerController : MonoBehaviour {
 
 	public Arduino arduino;
 	public GameObject gameController;
-	public ArduinoController arduinoController; 
+	public ArduinoController arduinoController;
 
 	void Start()
 	{
-		arduinoController = new ArduinoController();
-		arduinoController.Setup ("/dev/tty.usbmodem621"); 
+	    arduinoController = new ArduinoController();
+		arduinoController.Setup ("/dev/tty.usbmodem1451");
+	 
 //		gameController = GameObject.Find( "GameController" );
 //		if (gameController)
 //		    arduino = gameController.GetComponent<GameController>().arduino;

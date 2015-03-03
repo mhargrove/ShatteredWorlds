@@ -3,7 +3,7 @@ using System.Collections;
 using Uniduino;
 
 public class GameController : MonoBehaviour {
-
+	public ArduinoController arduinoController;
 	public Arduino arduino;
 	void Awake () 
 	{
@@ -24,8 +24,8 @@ public class GameController : MonoBehaviour {
 
 	void SetupArduino ()
 	{
-		arduino = Arduino.global;
-		arduino.Setup (ConfigurePins);
+		arduinoController = new ArduinoController();
+		arduinoController.Setup ("/dev/tty.usbmodem621");
 	}
 	void ConfigurePins()
 	{
