@@ -6,10 +6,12 @@ public class ObjectController : MonoBehaviour {
 	// Use this for initialization
 	public Transform lightPrefab;
 	public GameObject audioController;
+	public GameObject UIcontroller;
 
 	void Start () {
 		// All interactions with objects that have sound can have the sounds played throguh the audioController
 		audioController = GameObject.Find( "audioController" );
+		UIcontroller = GameObject.Find ("UI");
 	}
 	
 	// Update is called once per frame
@@ -33,6 +35,8 @@ public class ObjectController : MonoBehaviour {
 			Instantiate (lightPrefab, pos, rot);
 			Destroy(gameObject);
 			audioController.GetComponent<AudioController> ().playTreeExplosionSfx ();
+			UIcontroller.GetComponent<UIController>().updateTreeDestroyed();
+
 		}
 	}
 }

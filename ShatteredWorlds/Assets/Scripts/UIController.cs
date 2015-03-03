@@ -16,6 +16,12 @@ public class UIController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-	
+	}
+
+	public void updateTreeDestroyed()
+	{
+		treesDestroyed++;
+		treeCount.text = treesDestroyed + " / " + treesTotal;
+
 	}
 }
