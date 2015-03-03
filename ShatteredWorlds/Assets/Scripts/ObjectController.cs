@@ -5,8 +5,10 @@ public class ObjectController : MonoBehaviour {
 
 	// Use this for initialization
 	public Transform lightPrefab;
+	public GameObject audioController;
 
 	void Start () {
+		audioController = GameObject.Find( "audioController" );
 	
 	}
 	
@@ -25,6 +27,7 @@ public class ObjectController : MonoBehaviour {
 			Vector3 pos = contact.point;
 			pos.y = pos.y + 1f;
 			Instantiate (lightPrefab, pos, rot);
+			audioController.GetComponent<AudioController>().audio.Play ();
 			Destroy(gameObject);
 		}
 

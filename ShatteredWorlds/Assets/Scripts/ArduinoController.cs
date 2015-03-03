@@ -62,6 +62,8 @@ public class ArduinoController : MonoBehaviour {
 			angleYZ = float.Parse (str[7]);
 			angleXY = float.Parse (str[8]); 
 			print ("Raw XYZ Axis Readings: (" + x + " , " + y + " , " + z + " )"); 
+
+
 		}catch(UnityException e){
 			print ("Error communicating with Arduino."+e.Message); 
 		}
