@@ -13,14 +13,14 @@ public class PlayerController : MonoBehaviour {
 	private Vector3 moveUp;
 	void Start()
 	{
-	    arduinoController = new ArduinoController();
-		arduinoController.Setup ("/dev/tty.usbmodem1451");
+	   // arduinoController = new ArduinoController();
+		//arduinoController.Setup ("/dev/tty.usbmodem1451");
 	}
 
 	void Update()
 	{  
-		//testMovement ();
-		arduinoMovement();
+		testMovement ();
+		//arduinoMovement();
 	}
 	void arduinoMovement()
 	{
