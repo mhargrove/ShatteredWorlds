@@ -1,22 +1,15 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
 using System.Collections;
 
 public class ObjectController : MonoBehaviour {
 
-	[SerializeField] private Text treeCount;
-
 	// Use this for initialization
 	public Transform lightPrefab;
 	public GameObject audioController;
-	public int treesDestroyed = 0;
-	public int treesTotal = 7; // TODO: automate this count instead of hard-code it
-	
+
 	void Start () {
-		treeCount = GetComponent<Text> ();
 		// All interactions with objects that have sound can have the sounds played throguh the audioController
 		audioController = GameObject.Find( "audioController" );
-		treeCount.text = treesDestroyed + " / " + treesTotal;
 	}
 	
 	// Update is called once per frame
@@ -40,7 +33,6 @@ public class ObjectController : MonoBehaviour {
 			Instantiate (lightPrefab, pos, rot);
 			Destroy(gameObject);
 			audioController.GetComponent<AudioController> ().playTreeExplosionSfx ();
-
 		}
 	}
 }
