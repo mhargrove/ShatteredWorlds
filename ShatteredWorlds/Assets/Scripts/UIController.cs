@@ -5,9 +5,12 @@ using System.Collections;
 public class UIController : MonoBehaviour {
 
 	[SerializeField] private Text treeCount;
+	[SerializeField] private Text stepCount;
+	[SerializeField] private Text timer;
 
 	public int treesDestroyed = 0;
 	public int treesTotal = 7; // TODO: automate this count instead of hard-code it
+	public int stepsTaken = 0;
 
 	// Use this for initialization
 	void Start () {
@@ -18,10 +21,9 @@ public class UIController : MonoBehaviour {
 	void Update () {
 	}
 
-	public void updateTreeDestroyed()
+	public void updateTreesDestroyed()
 	{
 		treesDestroyed++;
 		treeCount.text = treesDestroyed + " / " + treesTotal;
-
 	}
 }

@@ -35,7 +35,7 @@ public class ObjectController : MonoBehaviour {
 			Instantiate (lightPrefab, pos, rot);
 			Destroy(gameObject);
 			audioController.GetComponent<AudioController> ().playTreeExplosionSfx ();
-			UIcontroller.GetComponent<UIController>().updateTreeDestroyed();
+			UIcontroller.GetComponent<UIController>().updateTreesDestroyed();
 
 		}
 	}
