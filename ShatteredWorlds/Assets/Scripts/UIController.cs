@@ -10,7 +10,7 @@ public class UIController : MonoBehaviour {
 	[SerializeField] private Text timer;
 
 	public int treesDestroyed = 0;
-	public int treesTotal; // TODO: automate this count instead of hard-code it
+	public int treesTotal; 
 	public int stepsTaken = 0;
 	public Stopwatch stopWatch = new Stopwatch ();
 

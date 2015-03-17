@@ -38,14 +38,19 @@ public class ObjectController : MonoBehaviour {
 			Destroy(gameObject);
 			audioController.GetComponent<AudioController> ().playTreeExplosionSfx ();
 			UIcontroller.GetComponent<UIController>().updateTreesDestroyed();
-			var clones = GameObject.FindGameObjectsWithTag ("Clone");
-			if (clones.Any())
-			{
-				foreach (var clone in clones)
-					Destroy(clone, 3.0f);
-			}
+			DestroyClones("Clone", 3.0f);
 
 
+		}
+	}
+
+	public void DestroyClones(string tag, float time) 
+	{
+		var clones = GameObject.FindGameObjectsWithTag (tag);
+		if (clones.Any())
+		{
+			foreach (var clone in clones)
+				Destroy(clone, time);
 		}
 	}
 }
