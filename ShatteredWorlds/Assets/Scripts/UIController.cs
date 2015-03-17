@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using System.Diagnostics;
 
 public class UIController : MonoBehaviour {
 
@@ -9,16 +10,23 @@ public class UIController : MonoBehaviour {
 	[SerializeField] private Text timer;
 
 	public int treesDestroyed = 0;
-	public int treesTotal = 7; // TODO: automate this count instead of hard-code it
+	public int treesTotal; // TODO: automate this count instead of hard-code it
 	public int stepsTaken = 0;
+	public Stopwatch stopWatch = new Stopwatch ();
 
 	// Use this for initialization
 	void Start () {
+		stopWatch.Start ();
+
+		treesTotal = GameObject.FindGameObjectsWithTag ("Trees").Length;
 		treeCount.text = treesDestroyed + " / " + treesTotal;
+
+	
 	}
 	
 	// Update is called once per frame
 	void Update () {
+		timer.text = stopWatch.Elapsed.ToString ();
 	}
 
 	public void updateTreesDestroyed()
