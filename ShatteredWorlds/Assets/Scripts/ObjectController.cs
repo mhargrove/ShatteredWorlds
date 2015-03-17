@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Linq;
 
 public class ObjectController : MonoBehaviour {
 
@@ -16,6 +17,7 @@ public class ObjectController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+
 	}
 
 	//Detect Collision Between attached object and the colliding gameojbect
@@ -36,6 +38,13 @@ public class ObjectController : MonoBehaviour {
 			Destroy(gameObject);
 			audioController.GetComponent<AudioController> ().playTreeExplosionSfx ();
 			UIcontroller.GetComponent<UIController>().updateTreesDestroyed();
+			var clones = GameObject.FindGameObjectsWithTag ("Clone");
+			if (clones.Any())
+			{
+				foreach (var clone in clones)
+					Destroy(clone, 3.0f);
+			}
+
 
 		}
 	}

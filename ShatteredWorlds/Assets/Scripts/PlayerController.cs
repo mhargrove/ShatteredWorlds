@@ -13,26 +13,26 @@ public class PlayerController : MonoBehaviour {
 	private Vector3 moveUp;
 	void Start()
 	{
-	    arduinoController = new ArduinoController();
-		arduinoController.Setup ("/dev/tty.usbmodem1411");
+	   // arduinoController = new ArduinoController();
+	//	arduinoController.Setup ("/dev/tty.usbmodem1451");
 	}
 
 	void Update()
 	{  
-		//testMovement ();
-		arduinoMovement();
+		testMovement ();
+		//arduinoMovement();
 	}
 	void arduinoMovement()
 	{
 		bool moveH = true;
 		bool moveV = true;
 		float moveHorizontal = arduinoController.readAccelerometer ().y;
-		if (moveHorizontal > -1000.0f && moveHorizontal < 1000.0f && moveV == false) {
+		if (moveHorizontal > -5000.0f && moveHorizontal < 5000.0f && moveV == false) {
 			moveH = false;
 			rigidbody.Sleep ();
-		} else if (moveHorizontal > 1000.0f)
+		} else if (moveHorizontal > 5000.0f)
 			rigidbody.AddForce (100.0f, 0.0f, 0.0f);
-		else if (moveHorizontal < -1000.0f)
+		else if (moveHorizontal < -5000.0f)
 			rigidbody.AddForce (-100.0f, 0.0f, 0.0f);
 		
 		
@@ -41,13 +41,11 @@ public class PlayerController : MonoBehaviour {
 		
 		//forward movement, foot sensors	 
 		moveUp = new Vector3 (0.0f, 0.0f, 70.0f);
-		if (leftFoot == 1 && rightFoot == 1 && moveH == false) {
+		if (((leftFoot == 1 && rightFoot == 1) || (leftFoot == 0 && rightFoot == 0)) && moveH == false) {
 			moveV = false;
 			rigidbody.Sleep ();
-		} else if (leftFoot == 0 && rightFoot == 0 && moveH == false) {
-			moveV = false;
-			rigidbody.Sleep ();
-		} else if (leftFoot == 1 && rightFoot == 0)
+		}
+	    else if (leftFoot == 1 && rightFoot == 0)
 			rigidbody.AddForce (moveUp);
 		else if (leftFoot == 0 && rightFoot == 1)
 			rigidbody.AddForce (moveUp);	
