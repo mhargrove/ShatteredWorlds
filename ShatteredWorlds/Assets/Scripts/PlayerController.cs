@@ -8,13 +8,16 @@ public class PlayerController : MonoBehaviour {
 
 	public Arduino arduino;
 	public GameObject gameController;
-	public ArduinoController arduinoController;
+	public ArduinoController arduinoController;	
+	public GameObject UIcontroller;
 
 	private Vector3 moveUp;
 	void Start()
 	{
 	   // arduinoController = new ArduinoController();
-	//	arduinoController.Setup ("/dev/tty.usbmodem1451");
+	   // arduinoController.Setup ("/dev/tty.usbmodem1451");
+
+		UIcontroller = GameObject.Find ("UI");
 	}
 
 	void Update()
@@ -44,19 +47,25 @@ public class PlayerController : MonoBehaviour {
 		if (((leftFoot == 1 && rightFoot == 1) || (leftFoot == 0 && rightFoot == 0)) && moveH == false) {
 			moveV = false;
 			rigidbody.Sleep ();
-		}
-	    else if (leftFoot == 1 && rightFoot == 0)
+		} else if (leftFoot == 1 && rightFoot == 0) {
 			rigidbody.AddForce (moveUp);
-		else if (leftFoot == 0 && rightFoot == 1)
+			UIcontroller.GetComponent<UIController> ().updateStepsTaken ();
+		} else if (leftFoot == 0 && rightFoot == 1) {
 			rigidbody.AddForce (moveUp);	
+			UIcontroller.GetComponent<UIController> ().updateStepsTaken ();
+		}
 	}
 
 	void testMovement()
 	{
-		if (Input.GetKey (KeyCode.UpArrow))
+		if (Input.GetKey (KeyCode.UpArrow)) {
 			rigidbody.AddForce (0.0f, 0.0f, 100.0f);
-		if ( Input.GetKey(KeyCode.DownArrow) )
+			UIcontroller.GetComponent<UIController> ().updateStepsTaken ();
+		}
+		if (Input.GetKey (KeyCode.DownArrow)) {
 			rigidbody.AddForce (0.0f, 0.0f, -50.0f);
+			UIcontroller.GetComponent<UIController> ().updateStepsTaken ();
+		}
 		if ( Input.GetKey(KeyCode.RightArrow) )
 			rigidbody.AddForce (50.0f, 0.0f, 0.0f);
 		if ( Input.GetKey(KeyCode.LeftArrow) )
