@@ -10,6 +10,7 @@ public class AudioController : MonoBehaviour {
 	public GameObject treeExplosionSfx;
 	public GameObject ambience2;
 	public GameObject ambience3;
+	public GameObject glassBell;
 	// Use this for initialization
 	void Start () {
 		ambience2.GetComponent<AudioSource> ().Play ();
@@ -28,6 +29,10 @@ public class AudioController : MonoBehaviour {
 	{
 		if (!ambience2.GetComponent<AudioSource> ().isPlaying)
 			 ambience2.GetComponent<AudioSource> ().Play ();
+	}
+	public void playGlassBell()
+	{
+		glassBell.GetComponent<AudioSource> ().Play ();
 	}
 
 }
