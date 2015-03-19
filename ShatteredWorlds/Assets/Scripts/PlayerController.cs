@@ -3,14 +3,16 @@ using System.Collections;
 using System.IO.Ports;
 using System.Threading;
 using System.Collections.Generic;
+using System.Linq;
 using Uniduino;
 public class PlayerController : MonoBehaviour {
 
 	public Arduino arduino;
 	public GameObject gameController;
 	public ArduinoController arduinoController;
-
+	public Transform fadeToBlack;
 	private Vector3 moveUp;
+	public bool fadingToBlack = false;
 	void Start()
 	{
 	   // arduinoController = new ArduinoController();
@@ -20,6 +22,15 @@ public class PlayerController : MonoBehaviour {
 	void Update()
 	{  
 		testMovement ();
+		if (this.rigidbody.IsSleeping() && !fadingToBlack) {
+			Instantiate (fadeToBlack, new Vector3 (this.transform.position.x,this.transform.position.y, this.transform.position.z + 4.0f) , Quaternion.identity);
+			fadingToBlack = true;
+		}
+		if (!this.rigidbody.IsSleeping ()) {
+			DestroyClones ("DarkMist", 0.2f);
+			fadingToBlack = false;
+		}
+		   
 		//arduinoMovement();
 	}
 	void arduinoMovement()
@@ -61,5 +72,15 @@ public class PlayerController : MonoBehaviour {
 			rigidbody.AddForce (50.0f, 0.0f, 0.0f);
 		if ( Input.GetKey(KeyCode.LeftArrow) )
 			rigidbody.AddForce (-50.0f, 0.0f, 0.0f);
+	}
+
+	public void DestroyClones(string tag, float time) 
+	{
+		var clones = GameObject.FindGameObjectsWithTag (tag);
+		if (clones.Any())
+		{
+			foreach (var clone in clones)
+				Destroy(clone, time);
+		}
 	}
 }
