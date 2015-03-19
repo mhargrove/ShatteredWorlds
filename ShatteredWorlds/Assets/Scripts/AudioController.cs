@@ -12,12 +12,12 @@ public class AudioController : MonoBehaviour {
 	public GameObject ambience3;
 	// Use this for initialization
 	void Start () {
-		loopMusic ();
+		ambience2.GetComponent<AudioSource> ().Play ();
 	}
 	
 	// Update is called once per frame
 	void Update () {
-
+		loopMusic ();
 	}
 
 	public void playTreeExplosionSfx()
@@ -26,11 +26,8 @@ public class AudioController : MonoBehaviour {
 	}
 	public void loopMusic()
 	{
-		ambience2.GetComponent<AudioSource> ().Play ();
-		if (!ambience2.audio.isPlaying)
-			ambience3.GetComponent<AudioSource> ().Play ();
-
-
+		if (!ambience2.GetComponent<AudioSource> ().isPlaying)
+			 ambience2.GetComponent<AudioSource> ().Play ();
 	}
 
 }
