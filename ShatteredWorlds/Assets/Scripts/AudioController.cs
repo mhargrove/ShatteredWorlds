@@ -8,17 +8,31 @@ public class AudioController : MonoBehaviour {
 	//REMEMBER, you must drag the SFX onto the AudioController in your scene to hydrate the variable
 
 	public GameObject treeExplosionSfx;
+	public GameObject ambience2;
+	public GameObject ambience3;
+	public GameObject glassBell;
 	// Use this for initialization
 	void Start () {
+		ambience2.GetComponent<AudioSource> ().Play ();
 	}
 	
 	// Update is called once per frame
 	void Update () {
+		loopMusic ();
 	}
 
 	public void playTreeExplosionSfx()
 	{
 		treeExplosionSfx.GetComponent<AudioSource> ().Play ();
+	}
+	public void loopMusic()
+	{
+		if (!ambience2.GetComponent<AudioSource> ().isPlaying)
+			 ambience2.GetComponent<AudioSource> ().Play ();
+	}
+	public void playGlassBell()
+	{
+		glassBell.GetComponent<AudioSource> ().Play ();
 	}
 
 }
