@@ -14,11 +14,15 @@ public class PlayerController : MonoBehaviour {
 	public GameObject UIcontroller;
 	private Vector3 moveUp;
 	public bool fadingToBlack = false;
+	public Vector3 rotateAmt = new Vector3(0.0f, 0.0f, 3.0f);
+	public GameObject camera;
+	private float effectTimer = 1;
+	private bool isRotating = false;
 	void Start()
 	{
 	   // arduinoController = new ArduinoController();
 	   // arduinoController.Setup ("/dev/tty.usbmodem1451");
-
+		camera = GameObject.FindGameObjectWithTag ("MainCamera");
 		UIcontroller = GameObject.Find ("UI");
 	}
 
