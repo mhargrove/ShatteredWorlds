@@ -10,14 +10,20 @@ public class PlayerController : MonoBehaviour {
 	public Arduino arduino;
 	public GameObject gameController;
 	public Transform fadeToBlack;
+	public GameObject blackScreen;
 	public ArduinoController arduinoController;	
 	public GameObject UIcontroller;
 	private Vector3 moveUp;
 	public bool fadingToBlack = false;
+	public bool initialSceneBlack= true;
+	public bool moving = false;
+	public float timeStart = 0;
+	public float timeEnd = 10;
 	void Start()
 	{
 	   // arduinoController = new ArduinoController();
 	   // arduinoController.Setup ("/dev/tty.usbmodem1451");
+		gameController = GameObject.Find ("GameController");
 
 		UIcontroller = GameObject.Find ("UI");
 	}
@@ -25,13 +31,30 @@ public class PlayerController : MonoBehaviour {
 	void Update()
 	{  
 		testMovement ();
-		if (this.rigidbody.IsSleeping() && !fadingToBlack) {
-			Instantiate (fadeToBlack, new Vector3 (this.transform.position.x,this.transform.position.y, this.transform.position.z + 4.0f) , Quaternion.identity);
-			fadingToBlack = true;
+		if (this.rigidbody.IsSleeping()) {
+			timeStart+= Time.deltaTime;
+			if (!fadingToBlack){
+			    Instantiate (fadeToBlack, new Vector3 (this.transform.position.x,this.transform.position.y, this.transform.position.z + 4.0f) , Quaternion.identity);
+			    Instantiate (fadeToBlack, new Vector3 (this.transform.position.x + 4.0f,this.transform.position.y + 2.0f, this.transform.position.z + 4.0f) , Quaternion.identity);
+		     	Instantiate (fadeToBlack, new Vector3 (this.transform.position.x - 4.0f,this.transform.position.y + 2.0f, this.transform.position.z + 4.0f) , Quaternion.identity);
+			    fadingToBlack = true;
+				timeStart = 0;
+			}
+			if (timeStart >= timeEnd)
+			{
+				gameController.GetComponent<GameController>().loadRandomLevel();
+
+
+			}
 		}
 		if (!this.rigidbody.IsSleeping ()) {
 			DestroyClones ("DarkMist", 0.2f);
 			fadingToBlack = false;
+		}
+
+		if (initialSceneBlack && moving) {
+			Destroy(GameObject.FindGameObjectWithTag("BlackScreen"));
+			initialSceneBlack = false;
 		}
 		   
 		//arduinoMovement();
@@ -71,6 +94,7 @@ public class PlayerController : MonoBehaviour {
 	{
 		if (Input.GetKey (KeyCode.UpArrow)) {
 			rigidbody.AddForce (0.0f, 0.0f, 100.0f);
+			moving = true;
 			UIcontroller.GetComponent<UIController> ().updateStepsTaken ();
 		}
 		if (Input.GetKey (KeyCode.DownArrow)) {
