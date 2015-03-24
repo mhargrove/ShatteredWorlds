@@ -18,12 +18,13 @@ public class PlayerController : MonoBehaviour {
 	public GameObject camera;
 	private float effectTimer = 1;
 	private bool isRotating = false;
+
 	void Start()
 	{
-	   // arduinoController = new ArduinoController();
-	   // arduinoController.Setup ("/dev/tty.usbmodem1451");
+	    //arduinoController = new ArduinoController();
+	    //arduinoController.Setup ();
 		camera = GameObject.FindGameObjectWithTag ("MainCamera");
-		UIcontroller = GameObject.Find ("UI");
+		UIcontroller = GameObject.Find ("UI"); 
 	}
 
 	void Update()
@@ -39,12 +40,14 @@ public class PlayerController : MonoBehaviour {
 		}
 		   
 		//arduinoMovement();
+		arduinoController.print (); 
 	}
+
 	void arduinoMovement()
 	{
 		bool moveH = true;
 		bool moveV = true;
-		float moveHorizontal = arduinoController.readAccelerometer ().y;
+		float moveHorizontal = arduinoController.getLeftAccelData ().y;
 		if (moveHorizontal > -5000.0f && moveHorizontal < 5000.0f && moveV == false) {
 			moveH = false;
 			rigidbody.Sleep ();
