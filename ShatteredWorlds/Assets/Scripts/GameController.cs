@@ -3,9 +3,13 @@ using System.Collections;
 using Uniduino;
 
 public class GameController : MonoBehaviour {
-
+	//level 1
 	public GameObject blackScreen;
+
+
+
 	public GameObject player;
+
 	void Awake () 
 	{
 		DontDestroyOnLoad (gameObject);
@@ -30,7 +34,7 @@ public class GameController : MonoBehaviour {
 
 	public void loadRandomLevel()
 	{
-		int x = Random.Range (1, 2);
+		int x = Random.Range (2, 3);
 		Application.LoadLevel (x);
 	}
 	public void movePlayerToRandomSpot()
