@@ -22,18 +22,19 @@ public class AudioController : MonoBehaviour {
 	void Start () {
 		ambience2.GetComponent<AudioSource> ().Play ();
 		player = GameObject.FindGameObjectWithTag ("Player");
-
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		if (player == null)
 			player = GameObject.FindGameObjectWithTag ("Player");
-		loopMusic ();
+	
 		if (player != null)
 			this.transform.position = player.transform.position;
 		else 
 			this.transform.position = new Vector3 (0.0f, 0.0f, 0.0f);
+
+		loopMusic ();
 
 	}
 
