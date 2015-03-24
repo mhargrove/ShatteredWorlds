@@ -17,8 +17,8 @@ public class PlayerController : MonoBehaviour {
 	public bool fadingToBlack = false;
 	public bool initialSceneBlack= true;
 	public bool moving = false;
-	public float timeStart = 0;
-	public float timeEnd = 10;
+	public float startBlackness = 0;
+	public float endBlackness = 6;
 	void Start()
 	{
 	   // arduinoController = new ArduinoController();
@@ -32,19 +32,21 @@ public class PlayerController : MonoBehaviour {
 	{  
 		testMovement ();
 		if (this.rigidbody.IsSleeping()) {
-			timeStart+= Time.deltaTime;
+			startBlackness+= Time.deltaTime;
 			if (!fadingToBlack){
 			    Instantiate (fadeToBlack, new Vector3 (this.transform.position.x,this.transform.position.y, this.transform.position.z + 4.0f) , Quaternion.identity);
 			    Instantiate (fadeToBlack, new Vector3 (this.transform.position.x + 4.0f,this.transform.position.y + 2.0f, this.transform.position.z + 4.0f) , Quaternion.identity);
 		     	Instantiate (fadeToBlack, new Vector3 (this.transform.position.x - 4.0f,this.transform.position.y + 2.0f, this.transform.position.z + 4.0f) , Quaternion.identity);
 			    fadingToBlack = true;
-				timeStart = 0;
+				startBlackness = 0;
 			}
-			if (timeStart >= timeEnd)
+			if (startBlackness >= endBlackness)
 			{
+				//TODO: Change the audio as you are fading into darkness
+
+				//if the screen is black for 10 seconds, reload a random level, 
+				//or we can change the players position in the map
 				gameController.GetComponent<GameController>().loadRandomLevel();
-
-
 			}
 		}
 		if (!this.rigidbody.IsSleeping ()) {
@@ -53,6 +55,7 @@ public class PlayerController : MonoBehaviour {
 		}
 
 		if (initialSceneBlack && moving) {
+			//levels initially load black, once you move set initialSceneBlack to false and destroy the black screen
 			Destroy(GameObject.FindGameObjectWithTag("BlackScreen"));
 			initialSceneBlack = false;
 		}

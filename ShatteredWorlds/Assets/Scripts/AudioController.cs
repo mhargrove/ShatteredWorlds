@@ -22,6 +22,7 @@ public class AudioController : MonoBehaviour {
 	void Start () {
 		ambience2.GetComponent<AudioSource> ().Play ();
 		player = GameObject.FindGameObjectWithTag ("Player");
+
 	}
 	
 	// Update is called once per frame
@@ -49,5 +50,12 @@ public class AudioController : MonoBehaviour {
 	{
 		glassBell.GetComponent<AudioSource> ().Play ();
 	}
+
+	/*TODO: Sound for:
+	 * 					FOOTSTEPS
+	 * 					Better sound for tree explosion
+	 * 					dreamstate sound
+	 * 	*/				
+
 
 }

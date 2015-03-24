@@ -31,8 +31,15 @@ public class GameController : MonoBehaviour {
 	public void loadRandomLevel()
 	{
 		int x = Random.Range (1, 2);
-		Application.LoadLevel (2);
+		Application.LoadLevel (x);
 	}
+	public void movePlayerToRandomSpot()
+	{
+		var x = Random.Range (0, 50);
+		var z = Random.Range (0, 50);
+		player.GetComponent<Rigidbody> ().transform.position = new Vector3 (x, 1.0f, z);
+	}
+
 
 
 
