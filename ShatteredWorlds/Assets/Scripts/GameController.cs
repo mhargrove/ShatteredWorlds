@@ -3,8 +3,9 @@ using System.Collections;
 using Uniduino;
 
 public class GameController : MonoBehaviour {
-	public ArduinoController arduinoController;
-	public Arduino arduino;
+
+	public GameObject blackScreen;
+	public GameObject player;
 	void Awake () 
 	{
 		DontDestroyOnLoad (gameObject);
@@ -12,29 +13,25 @@ public class GameController : MonoBehaviour {
 
 	void Start()
 	{
-		SetupArduino ();
+		player = GameObject.FindGameObjectWithTag ("Player");
+	
 	}
 
 	void Update()
 	{
-		int footPedal = arduino.analogRead (0);
+		if (player == null)
+			player = GameObject.FindGameObjectWithTag ("Player");
 
-
-	}
-
-	void SetupArduino ()
-	{
-		arduinoController = new ArduinoController();
-		arduinoController.Setup ("/dev/tty.usbmodem621");
-	}
-	void ConfigurePins()
-	{
-		arduino.pinMode (0, PinMode.ANALOG);
-	}
-
+	}	
 	void showPauseScreen()
 	{
 
+	}
+
+	public void loadRandomLevel()
+	{
+		int x = Random.Range (1, 2);
+		Application.LoadLevel (2);
 	}
 
 
