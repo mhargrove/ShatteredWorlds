@@ -50,7 +50,7 @@ public class ArduinoController : MonoBehaviour {
 	public void readArduinoData()
 	{
 		try{
-			print (inputStream.ReadLine ());
+			//print (inputStream.ReadLine ());
 			string[] str = inputStream.ReadLine ().Split(',');
 			arduinoID = int.Parse (str[0]); 
 			leftFootpad = int.Parse (str[1]); 
@@ -61,7 +61,7 @@ public class ArduinoController : MonoBehaviour {
 			angleXZ = float.Parse(str[6]);
 			angleYZ = float.Parse (str[7]);
 			angleXY = float.Parse (str[8]); 
-			print ("Raw XYZ Axis Readings: (" + x + " , " + y + " , " + z + " )"); 
+		//	print ("Raw XYZ Axis Readings: (" + x + " , " + y + " , " + z + " )"); 
 
 
 		}catch(UnityException e){

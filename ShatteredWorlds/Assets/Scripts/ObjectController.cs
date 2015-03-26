@@ -21,6 +21,22 @@ public class ObjectController : MonoBehaviour {
 	}
 
 	//Detect Collision Between attached object and the colliding gameojbect
+	void OnTriggerEnter(Collider collider)
+	{
+	
+		if (collider.gameObject.tag == "Player") {
+			Debug.Log ("Collided with player");
+
+			Vector3 pos = collider.gameObject.transform.position;
+			pos.y = pos.y + 1f;
+			Instantiate(lightPrefab, pos, Quaternion.identity);
+			Destroy (gameObject);
+			audioController.GetComponent<AudioController> ().playTreeExplosionSfx ();
+			UIcontroller.GetComponent<UIController>().updateTreesDestroyed();
+			DestroyClones("Clone", 3.0f);
+		}
+
+	}
 	void OnCollisionEnter(Collision collision)
 	{
 
