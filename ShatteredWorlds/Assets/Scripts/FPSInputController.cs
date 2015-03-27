@@ -10,7 +10,7 @@ using System.Linq;
 public class FPSInputController : MonoBehaviour
 {
     private CharacterMotor motor;
-	public ArduinoController arduinoController;
+	public GameObject arduinoController;
 	public GameObject UIcontroller;
 	public GameObject gameController;
 
@@ -24,8 +24,7 @@ public class FPSInputController : MonoBehaviour
 
 	void Start()
 	{
-		arduinoController = new ArduinoController();
-		arduinoController.Setup ();
+		arduinoController = GameObject.Find ("ArduinoData");
 		gameController = GameObject.Find ("GameController");
 		UIcontroller = GameObject.Find ("UI");
 		if (arduinoController == null)
@@ -41,13 +40,13 @@ public class FPSInputController : MonoBehaviour
     {
 
 		//arduino data
-		int leftFoot = arduinoController.readLeftFootpad ();
-		int rightFoot = arduinoController.readRightFootpad ();
-		float moveHorizontal = arduinoController.getLeftAccelData ().y;
+		int leftFoot = arduinoController.GetComponent<ArduinoController> ().readLeftFootpad (); 
+		int rightFoot = arduinoController.GetComponent<ArduinoController> ().readRightFootpad (); 
+		float moveHorizontal = arduinoController.GetComponent<ArduinoController> ().getRightAccelData ().y;
 		float vertical = 0;
 		float horizontal = 0;
 
-		//Debug.Log ("LeftFoot = " + leftFoot + "RightFoot = " + rightFoot + "acceleromenter y = " + moveHorizontal);
+		Debug.Log ("LeftFoot = " + leftFoot + "RightFoot = " + rightFoot + "acceleromenter y = " + moveHorizontal);
 
 		if (((leftFoot == 1 && rightFoot == 1) || (leftFoot == 0 && rightFoot == 0))) {
 			vertical = 0;
