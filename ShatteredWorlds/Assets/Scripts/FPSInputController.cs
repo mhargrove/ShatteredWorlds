@@ -41,8 +41,9 @@ public class FPSInputController : MonoBehaviour
 
 		//arduino data
 		int leftFoot = arduinoController.GetComponent<ArduinoController> ().readLeftFootpad (); 
-		int rightFoot = arduinoController.GetComponent<ArduinoController> ().readRightFootpad (); 
-		float moveHorizontal = arduinoController.GetComponent<ArduinoController> ().getRightAccelData ().y;
+		//int rightFoot = arduinoController.GetComponent<ArduinoController> ().readRightFootpad (); 
+		int rightFoot = 0;
+		float moveHorizontal = arduinoController.GetComponent<ArduinoController> ().getLeftAccelData ().y;
 		float vertical = 0;
 		float horizontal = 0;
 
