@@ -25,7 +25,7 @@ public class FPSInputController : MonoBehaviour
 	void Start()
 	{
 		arduinoController = new ArduinoController();
-		arduinoController.Setup ("/dev/tty.usbmodem1451");
+		arduinoController.Setup ();
 		gameController = GameObject.Find ("GameController");
 		UIcontroller = GameObject.Find ("UI");
 		if (arduinoController == null)
