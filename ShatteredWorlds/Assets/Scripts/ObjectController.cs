@@ -27,7 +27,7 @@ public class ObjectController : MonoBehaviour {
 		if (collider.gameObject.tag == "Player") {
 			Debug.Log ("Collided with player");
 
-			Vector3 pos = collider.gameObject.transform.position;
+			Vector3 pos = collider.gameObject.transform.position + (collider.gameObject.transform.forward * 2);
 			pos.y = pos.y + 1f;
 			Instantiate(lightPrefab, pos, Quaternion.identity);
 			Destroy (gameObject);
@@ -48,8 +48,9 @@ public class ObjectController : MonoBehaviour {
 		{
 			ContactPoint contact = collision.contacts[0];
 			Quaternion rot = Quaternion.FromToRotation(Vector3.up, contact.normal);
-			Vector3 pos = contact.point;
+			Vector3 pos = contact.point  + collision.gameObject.transform.forward*3;;
 			pos.y = pos.y + 1f;
+
 			Instantiate (lightPrefab, pos, rot);
 			Destroy(gameObject);
 			audioController.GetComponent<AudioController> ().playTreeExplosionSfx ();
