@@ -35,23 +35,34 @@ public class MouseLook : MonoBehaviour {
 	{
 		int turnHorizontal = 0;
 		int turnVertical = 0;
-		float moveHorizontal = arduinoController.GetComponent<ArduinoController> ().getLeftAccelData ().y;
-		float moveVertical = arduinoController.GetComponent<ArduinoController> ().getLeftAccelData ().x;
+		float moveHorizontal = arduinoController.GetComponent<ArduinoController> ().getRightAccelData ().y;
+		float moveVertical = arduinoController.GetComponent<ArduinoController> ().getLeftAccelData ().y;
 		if (moveHorizontal > -5000.0f && moveHorizontal < 5000.0f) {
 			turnHorizontal = 0;
 		} else if (moveHorizontal > 5000.0f)
 			turnHorizontal = 1;
 		else if (moveHorizontal < -5000.0f)
-			turnHorizontal = -1;
+			turnHorizontal = 1;
 		if (moveVertical > -5000.0f && moveVertical < 5000.0f) 
 			turnVertical = 0;
-		else if (moveHorizontal > 5000.0f)
-			turnVertical = 1;
-		else if (moveHorizontal < -5000.0f)
+		else if (moveVertical > 5000.0f)
 			turnVertical = -1;
+		else if (moveVertical < -5000.0f)
+			turnVertical = -1;
+
+
+		int turn = 0;
+
+		if (turnHorizontal == 0 && turnVertical == 0)
+			turn = 0;
+		else if (turnHorizontal == 1 && turnVertical == 0)
+			turn = 1;
+		else if (turnHorizontal == 0 && turnVertical == -1)
+			turn = -1;
+
 		if (axes == RotationAxes.MouseXAndY)
 		{
-			float rotationX = transform.localEulerAngles.y + turnHorizontal * sensitivityX;
+			float rotationX = transform.localEulerAngles.y + turn * sensitivityX;
 			
 			rotationY += Input.GetAxis("Mouse Y") * sensitivityY;
 			rotationY = Mathf.Clamp (rotationY, minimumY, maximumY);
@@ -60,7 +71,7 @@ public class MouseLook : MonoBehaviour {
 		}
 		else if (axes == RotationAxes.MouseX)
 		{
-			transform.Rotate(0, turnHorizontal * sensitivityX, 0);
+			transform.Rotate(0, turn * sensitivityX, 0);
 		}
 		else
 		{

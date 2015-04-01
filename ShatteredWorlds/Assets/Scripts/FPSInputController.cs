@@ -41,13 +41,12 @@ public class FPSInputController : MonoBehaviour
 
 		//arduino data
 		int leftFoot = arduinoController.GetComponent<ArduinoController> ().readLeftFootpad (); 
-		//int rightFoot = arduinoController.GetComponent<ArduinoController> ().readRightFootpad (); 
-		int rightFoot = 0;
-		float moveHorizontal = arduinoController.GetComponent<ArduinoController> ().getLeftAccelData ().y;
+		int rightFoot = arduinoController.GetComponent<ArduinoController> ().readRightFootpad (); 
+	//	float moveHorizontal = arduinoController.GetComponent<ArduinoController> ().getLeftAccelData ().y;
 		float vertical = 0;
 		float horizontal = 0;
 
-		Debug.Log ("LeftFoot = " + leftFoot + "RightFoot = " + rightFoot + "acceleromenter y = " + moveHorizontal);
+		//Debug.Log ("LeftFoot = " + leftFoot + "RightFoot = " + rightFoot + "acceleromenter y = " + moveHorizontal);
 
 		if (((leftFoot == 1 && rightFoot == 1) || (leftFoot == 0 && rightFoot == 0))) {
 			vertical = 0;
@@ -58,12 +57,12 @@ public class FPSInputController : MonoBehaviour
 			vertical = 1;	
 			UIcontroller.GetComponent<UIController> ().updateStepsTaken ();
 		}
-		if (moveHorizontal > -5000.0f && moveHorizontal < 5000.0f) {
+		/*if (moveHorizontal > -5000.0f && moveHorizontal < 5000.0f) {
 			horizontal = 0;
 		} else if (moveHorizontal > 5000.0f)
 			horizontal = 1;
 		else if (moveHorizontal < -5000.0f)
-			horizontal = -1;
+			horizontal = -1;*/
 
 
         //Pass the arduino data to the direction vector
