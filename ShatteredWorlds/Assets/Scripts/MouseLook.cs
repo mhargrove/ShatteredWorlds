@@ -30,11 +30,28 @@ public class MouseLook : MonoBehaviour {
 
 	float rotationY = 0F;
 
+	public GameObject arduinoController;
 	void Update ()
 	{
+		int turnHorizontal = 0;
+		int turnVertical = 0;
+		float moveHorizontal = arduinoController.GetComponent<ArduinoController> ().getLeftAccelData ().y;
+		float moveVertical = arduinoController.GetComponent<ArduinoController> ().getLeftAccelData ().x;
+		if (moveHorizontal > -5000.0f && moveHorizontal < 5000.0f) {
+			turnHorizontal = 0;
+		} else if (moveHorizontal > 5000.0f)
+			turnHorizontal = 1;
+		else if (moveHorizontal < -5000.0f)
+			turnHorizontal = -1;
+		if (moveVertical > -5000.0f && moveVertical < 5000.0f) 
+			turnVertical = 0;
+		else if (moveHorizontal > 5000.0f)
+			turnVertical = 1;
+		else if (moveHorizontal < -5000.0f)
+			turnVertical = -1;
 		if (axes == RotationAxes.MouseXAndY)
 		{
-			float rotationX = transform.localEulerAngles.y + Input.GetAxis("Mouse X") * sensitivityX;
+			float rotationX = transform.localEulerAngles.y + turnHorizontal * sensitivityX;
 			
 			rotationY += Input.GetAxis("Mouse Y") * sensitivityY;
 			rotationY = Mathf.Clamp (rotationY, minimumY, maximumY);
@@ -43,7 +60,7 @@ public class MouseLook : MonoBehaviour {
 		}
 		else if (axes == RotationAxes.MouseX)
 		{
-			transform.Rotate(0, Input.GetAxis("Mouse X") * sensitivityX, 0);
+			transform.Rotate(0, turnHorizontal * sensitivityX, 0);
 		}
 		else
 		{
@@ -56,6 +73,7 @@ public class MouseLook : MonoBehaviour {
 	
 	void Start ()
 	{
+		arduinoController = GameObject.Find ("ArduinoData");
 		// Make the rigid body not change rotation
 		if (GetComponent<Rigidbody>())
 			GetComponent<Rigidbody>().freezeRotation = true;
