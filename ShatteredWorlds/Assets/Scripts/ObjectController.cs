@@ -6,6 +6,7 @@ public class ObjectController : MonoBehaviour {
 
 	// Use this for initialization
 	public Transform lightPrefab;
+	public GameObject treeRemains;
 	public GameObject audioController;
 	public GameObject UIcontroller;
 
@@ -30,10 +31,12 @@ public class ObjectController : MonoBehaviour {
 			Vector3 pos = collider.gameObject.transform.position + (collider.gameObject.transform.forward * 2);
 			pos.y = pos.y + 1f;
 			Instantiate(lightPrefab, pos, Quaternion.identity);
-			Destroy (gameObject);
+			//Instantiate(treeRemains, this.transform.position, Quaternion.identity);
+		    Destroy (gameObject);
 			audioController.GetComponent<AudioController> ().playTreeExplosionSfx ();
 			UIcontroller.GetComponent<UIController>().updateTreesDestroyed();
 			DestroyClones("Clone", 3.0f);
+	//		DestroyClones("TreeRemains", 3.0f);
 		}
 
 	}

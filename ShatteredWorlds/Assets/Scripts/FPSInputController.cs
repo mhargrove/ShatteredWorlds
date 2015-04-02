@@ -95,11 +95,12 @@ public class FPSInputController : MonoBehaviour
 		} 
 		else
 		{
+			Vector3 pos = this.transform.position + this.transform.forward * 3;
 			startBlackness+= Time.deltaTime;
 			if (!fadingToBlack){
-				Instantiate (fadeToBlack, new Vector3 (this.transform.position.x,this.transform.position.y, this.transform.position.z + 4.0f) , Quaternion.identity);
-				Instantiate (fadeToBlack, new Vector3 (this.transform.position.x + 4.0f,this.transform.position.y + 2.0f, this.transform.position.z + 4.0f) , Quaternion.identity);
-				Instantiate (fadeToBlack, new Vector3 (this.transform.position.x - 4.0f,this.transform.position.y + 2.0f, this.transform.position.z + 4.0f) , Quaternion.identity);
+				Instantiate (fadeToBlack, new Vector3 (pos.x,pos.y, pos.z + 4.0f) , Quaternion.identity);
+				Instantiate (fadeToBlack, new Vector3 (pos.x + 4.0f,pos.y + 2.0f, pos.z + 4.0f) , Quaternion.identity);
+				Instantiate (fadeToBlack, new Vector3 (pos.x - 4.0f,pos.y + 2.0f, pos.z + 4.0f) , Quaternion.identity);
 				fadingToBlack = true;
 				startBlackness = 0;
 			}
