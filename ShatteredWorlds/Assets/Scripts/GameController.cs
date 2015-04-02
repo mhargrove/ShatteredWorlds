@@ -3,8 +3,13 @@ using System.Collections;
 using Uniduino;
 
 public class GameController : MonoBehaviour {
-	public ArduinoController arduinoController;
-	public Arduino arduino;
+	//level 1
+	public GameObject blackScreen;
+
+
+
+	public GameObject player;
+
 	void Awake () 
 	{
 		DontDestroyOnLoad (gameObject);
@@ -12,30 +17,33 @@ public class GameController : MonoBehaviour {
 
 	void Start()
 	{
-		SetupArduino ();
+		player = GameObject.FindGameObjectWithTag ("Player");
+	
 	}
 
 	void Update()
 	{
-		int footPedal = arduino.analogRead (0);
+		if (player == null)
+			player = GameObject.FindGameObjectWithTag ("Player");
 
-
-	}
-
-	void SetupArduino ()
-	{
-		arduinoController = new ArduinoController();
-		arduinoController.Setup ("/dev/tty.usbmodem621");
-	}
-	void ConfigurePins()
-	{
-		arduino.pinMode (0, PinMode.ANALOG);
-	}
-
+	}	
 	void showPauseScreen()
 	{
 
 	}
+
+	public void loadRandomLevel()
+	{
+		int x = Random.Range (2, 3);
+		Application.LoadLevel (x);
+	}
+	public void movePlayerToRandomSpot()
+	{
+		var x = Random.Range (0, 50);
+		var z = Random.Range (0, 50);
+		player.GetComponent<Rigidbody> ().transform.position = new Vector3 (x, 1.0f, z);
+	}
+
 
 
 
