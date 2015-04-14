@@ -14,6 +14,7 @@ public class FPSInputController : MonoBehaviour
 	public GameObject arduinoController;
 	public GameObject UIcontroller;
 	public GameObject gameController;
+	public GameObject audioController;
 
 	public bool fadingToBlack = false;
 	public bool initialSceneBlack= true;
@@ -33,6 +34,7 @@ public class FPSInputController : MonoBehaviour
 		if (arduinoController == null)
 			Debug.Log ("Why is this null and still working");
 		fadeInOut = GameObject.FindGameObjectWithTag ("Fader");
+		audioController = GameObject.Find ("audioController");
 	}
     void Awake()
     {
@@ -74,6 +76,7 @@ public class FPSInputController : MonoBehaviour
 		//Vector3 directionVector = new Vector3 (0, 0, 0);
         if (directionVector != Vector3.zero) {
 			timeTilBlackness = 10;
+			audioController.GetComponent<AudioController> ().stopBlackness();
 			
 			// Get the length of the directon vector and then normalize it
 			// Dividing by the length is cheaper than normalizing when we already have the length anyway
@@ -95,6 +98,7 @@ public class FPSInputController : MonoBehaviour
 			if (!fadeInOut.GetComponent<SceneFadeInOut> ().sceneStarting) {
 				timeTilBlackness -= Time.deltaTime;
 				if (timeTilBlackness < 0) {
+					audioController.GetComponent<AudioController> ().playBlackness();
 					fadeInOut.GetComponent<SceneFadeInOut> ().EndScene ();
 				}
 			}

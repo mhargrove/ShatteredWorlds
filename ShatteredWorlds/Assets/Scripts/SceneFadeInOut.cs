@@ -8,8 +8,11 @@ public class SceneFadeInOut : MonoBehaviour {
 	public CanvasGroup fadeCanvas;
 	public bool sceneStarting = true; 
 	private bool sceneEnding = false;// Whether or not the scene is still fading in.
-
 	void Awake ()
+	{
+
+	}
+	void Start()
 	{
 
 	}

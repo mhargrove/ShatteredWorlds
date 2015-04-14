@@ -12,6 +12,7 @@ public class AudioController : MonoBehaviour {
 	public GameObject ambience3;
 	public GameObject glassBell;
 	public GameObject missileLaunch;
+	public GameObject blackness;
 	// Use this for initialization
 
 	public GameObject player;
@@ -55,6 +56,16 @@ public class AudioController : MonoBehaviour {
 	public void playMissileLaunch()
 	{
 		missileLaunch.GetComponent<AudioSource> ().Play ();
+	}
+	public void playBlackness()
+	{
+		if (!blackness.GetComponent<AudioSource> ().isPlaying)
+			blackness.GetComponent<AudioSource> ().Play ();
+	}
+	public void stopBlackness()
+	{
+		if (blackness.GetComponent<AudioSource> ().isPlaying)
+			blackness.GetComponent<AudioSource> ().Stop ();
 	}
 
 	/*TODO: Sound for:
