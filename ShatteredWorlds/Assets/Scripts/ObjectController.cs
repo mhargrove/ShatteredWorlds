@@ -24,10 +24,8 @@ public class ObjectController : MonoBehaviour {
 	//Detect Collision Between attached object and the colliding gameojbect
 	void OnTriggerEnter(Collider collider)
 	{
-	
-		if (collider.gameObject.tag == "Player") {
-			Debug.Log ("Collided with player");
-
+		Debug.Log ("Collision Detected with " + collider.gameObject.tag);
+		if (collider.gameObject.tag == "Player" || collider.gameObject.tag == "Projectile") {
 			Vector3 pos = collider.gameObject.transform.position + (collider.gameObject.transform.forward * 2);
 			pos.y = pos.y + 1f;
 			Instantiate(lightPrefab, pos, Quaternion.identity);
@@ -36,8 +34,12 @@ public class ObjectController : MonoBehaviour {
 			audioController.GetComponent<AudioController> ().playTreeExplosionSfx ();
 			UIcontroller.GetComponent<UIController>().updateTreesDestroyed();
 			DestroyClones("Clone", 6.0f);
+			Destroy(collider.gameObject);
 	//		DestroyClones("TreeRemains", 3.0f);
 		}
+
+
+
 
 	}
 	void OnCollisionEnter(Collision collision)
@@ -59,7 +61,9 @@ public class ObjectController : MonoBehaviour {
 			audioController.GetComponent<AudioController> ().playTreeExplosionSfx ();
 			UIcontroller.GetComponent<UIController>().updateTreesDestroyed();
 			DestroyClones("Clone", 3.0f);
-
+		}
+		if (collision.gameObject.tag == "Projectile") 
+		{
 
 		}
 	}

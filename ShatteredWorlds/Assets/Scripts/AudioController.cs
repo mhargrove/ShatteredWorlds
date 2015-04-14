@@ -11,6 +11,7 @@ public class AudioController : MonoBehaviour {
 	public GameObject ambience2;
 	public GameObject ambience3;
 	public GameObject glassBell;
+	public GameObject missileLaunch;
 	// Use this for initialization
 
 	public GameObject player;
@@ -50,6 +51,10 @@ public class AudioController : MonoBehaviour {
 	public void playGlassBell()
 	{
 		glassBell.GetComponent<AudioSource> ().Play ();
+	}
+	public void playMissileLaunch()
+	{
+		missileLaunch.GetComponent<AudioSource> ().Play ();
 	}
 
 	/*TODO: Sound for:
