@@ -24,6 +24,9 @@ public class FPSInputController : MonoBehaviour
 	public Transform fadeToBlack;
 	public GameObject blackScreen;
 	public GameObject fadeInOut;
+	
+	private bool canLeft = true;
+	private bool canRight = true;
 	// Use this for initialization
 
 	void Start()
@@ -44,7 +47,6 @@ public class FPSInputController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
 		//arduino data
 		int leftFoot = arduinoController.GetComponent<ArduinoController> ().readLeftFootpad (); 
 		int rightFoot = arduinoController.GetComponent<ArduinoController> ().readRightFootpad (); 
@@ -56,13 +58,19 @@ public class FPSInputController : MonoBehaviour
 
 		if (((leftFoot == 1 && rightFoot == 1) || (leftFoot == 0 && rightFoot == 0))) {
 			vertical = 0;
-		} else if (leftFoot == 1 && rightFoot == 0) {
+		} else if (leftFoot == 1 && rightFoot == 0 && canLeft) {
 			vertical = 1;
+			canLeft = false;
+			canRight = true;
 			UIcontroller.GetComponent<UIController> ().updateStepsTaken ();
-		} else if (leftFoot == 0 && rightFoot == 1) {
+		} else if (leftFoot == 0 && rightFoot == 1 && canRight) {
 			vertical = 1;	
+			canRight = false;
+			canLeft = true;
 			UIcontroller.GetComponent<UIController> ().updateStepsTaken ();
 		}
+
+
 		/*if (moveHorizontal > -5000.0f && moveHorizontal < 5000.0f) {
 			horizontal = 0;
 		} else if (moveHorizontal > 5000.0f)
