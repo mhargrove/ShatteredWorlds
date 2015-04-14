@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
+
 // Require a character controller to be attached to the same game object
 [RequireComponent(typeof(CharacterMotor))]
 [AddComponentMenu("Character/FPS Input Controller")]
@@ -18,8 +19,10 @@ public class FPSInputController : MonoBehaviour
 	public bool initialSceneBlack= true;
 	public float startBlackness = 0;
 	public float endBlackness = 6;
+	public float timeTilBlackness = 10;
 	public Transform fadeToBlack;
 	public GameObject blackScreen;
+	public GameObject fadeInOut;
 	// Use this for initialization
 
 	void Start()
@@ -29,6 +32,7 @@ public class FPSInputController : MonoBehaviour
 		UIcontroller = GameObject.Find ("UI");
 		if (arduinoController == null)
 			Debug.Log ("Why is this null and still working");
+		fadeInOut = GameObject.FindGameObjectWithTag ("Fader");
 	}
     void Awake()
     {
@@ -69,14 +73,7 @@ public class FPSInputController : MonoBehaviour
         Vector3 directionVector = new Vector3(horizontal, 0, vertical);
 		//Vector3 directionVector = new Vector3 (0, 0, 0);
         if (directionVector != Vector3.zero) {
-
-			DestroyClones ("DarkMist", 0.2f);
-			fadingToBlack = false;
-			if (initialSceneBlack) {
-				//levels initially load black, once you move set initialSceneBlack to false and destroy the black screen
-				Destroy(GameObject.FindGameObjectWithTag("BlackScreen"));
-				initialSceneBlack = false;
-			}
+			timeTilBlackness = 10;
 			
 			// Get the length of the directon vector and then normalize it
 			// Dividing by the length is cheaper than normalizing when we already have the length anyway
@@ -93,24 +90,13 @@ public class FPSInputController : MonoBehaviour
 			// Multiply the normalized direction vector by the modified length
 			directionVector = directionVector * directionLength;
 		} 
-		else
+		else 
 		{
-			Vector3 pos = this.transform.position + this.transform.forward * 3;
-			startBlackness+= Time.deltaTime;
-			if (!fadingToBlack){
-				Instantiate (fadeToBlack, new Vector3 (pos.x,pos.y, pos.z + 4.0f) , Quaternion.identity);
-				Instantiate (fadeToBlack, new Vector3 (pos.x + 4.0f,pos.y + 2.0f, pos.z + 4.0f) , Quaternion.identity);
-				Instantiate (fadeToBlack, new Vector3 (pos.x - 4.0f,pos.y + 2.0f, pos.z + 4.0f) , Quaternion.identity);
-				fadingToBlack = true;
-				startBlackness = 0;
-			}
-			if (startBlackness >= endBlackness)
-			{
-				//TODO: Change the audio as you are fading into darkness
-				
-				//if the screen is black for 10 seconds, reload a random level, 
-				//or we can change the players position in the map
-				gameController.GetComponent<GameController>().loadRandomLevel();
+			if (!fadeInOut.GetComponent<SceneFadeInOut> ().sceneStarting) {
+				timeTilBlackness -= Time.deltaTime;
+				if (timeTilBlackness < 0) {
+					fadeInOut.GetComponent<SceneFadeInOut> ().EndScene ();
+				}
 			}
 		}
 
