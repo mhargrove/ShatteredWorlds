@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class SplashController : MonoBehaviour {
-	public float timer = 3f;
+	public float timer = 25f;
 	public string levelToLoad = "Menu";
 	// Use this for initialization
 	void Start () {
