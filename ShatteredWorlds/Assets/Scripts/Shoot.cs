@@ -28,7 +28,7 @@ public class Shoot : MonoBehaviour {
 		//Vector3 spawnPos = this.transform.position + this.transform.forward * 3;
 		Vector3 forcePos = this.transform.forward + new Vector3 (0.15f, 1.0f, 0.15f);
 		GameObject clone = Instantiate (projectile, spawnPos, Quaternion.identity) as GameObject;
-		clone.rigidbody.AddForce((this.transform.forward + forcePos) * projectileSpeed);
+		clone.GetComponent<Rigidbody>().AddForce((this.transform.forward + forcePos) * projectileSpeed);
 
 
 	}

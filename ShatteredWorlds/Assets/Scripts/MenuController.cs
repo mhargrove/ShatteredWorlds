@@ -14,6 +14,7 @@ public class MenuController : MonoBehaviour {
 	}
 
 	public void LoadScene(int level){
+		Debug.Log ("Play button pressed");
 		Application.LoadLevel (level);
 	}
 }
