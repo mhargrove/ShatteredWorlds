@@ -1,13 +1,27 @@
+/*
+ * Setup for MPU6050: 
+ *    VCC -> 5V
+ *    GND -> GND
+ *    SCL -> A5
+ *    SDA -> A4
+ *    INT -> D2
+ */
+ 
 #include <RedBot.h>
-RedBotMotors motors;
+#include "I2Cdev.h"
+#include "MPU6050.h"
+
+#if I2CDEV_IMPLEMENTATION == I2CDEV_ARDUINO_WIRE
+    #include "Wire.h"
+#endif
+
 
 RedBotAccel accelerometer;
+MPU6050 accelerometer2; 
 
-// Selection Pins
-int s0 = 7;
-int s1 = 8;
-int s2 = 9;
-int s3 = 10;
+// Accelerometer 2 (MPU6050 will save data to these addresses)
+int16_t ax, ay, az;
+int16_t gx, gy, gz;
 
 // Footpad Pins
 int LPad = 12; 
@@ -15,92 +29,58 @@ int RPad = 13;
 
 void setup(void)
 {
+  Wire.begin(); 
   Serial.begin(57600);
-  
-  // Footpads
-  pinMode(LPad, INPUT);
-  pinMode(RPad, INPUT);
-
-  // Multiplexer Control
-  pinMode(s0, OUTPUT);
-  pinMode(s1, OUTPUT);
-  pinMode(s2, OUTPUT);
-  pinMode(s3, OUTPUT);
-  
-  digitalWrite(s1, LOW); 
-  digitalWrite(s2, LOW); 
-  digitalWrite(s3, LOW); 
+  pinMode(LPad, INPUT); 
+  pinMode(RPad, INPUT); 
+  accelerometer2.initialize(); 
 }
 
 void loop(void)
 {
-  readFootPads(); 
-  readDataL();
-  readDataR(); 
-  
+   readFootPads(); 
+   readDataL(); 
+   readDataR(); 
 }
 
 void readDataL() {
-  digitalWrite(s0, LOW); 
-  
+
   accelerometer.read();
 
   // Accelerometer X read
-  Serial.print(accelerometer.x);
-  Serial.print(",");  // tab
+  Serial.print(accelerometer.x); Serial.print(",");  
 
   // Accelerometer Y read
-  Serial.print(accelerometer.y);
-  Serial.print(",");  // tab
+  Serial.print(accelerometer.y); Serial.print(",");  
 
   // Accelerometer Z read
-  Serial.print(accelerometer.z);
-  Serial.print(",");  // tab
+  Serial.print(accelerometer.z); Serial.print(",");  
 
   // Angle read XZ
-  Serial.print(accelerometer.angleXZ);
-  Serial.print(",");
+  Serial.print(accelerometer.angleXZ); Serial.print(",");
 
   // Angle read YZ
-  Serial.print(accelerometer.angleYZ);
-  Serial.print(",");
+  Serial.print(accelerometer.angleYZ); Serial.print(",");
 
   // Angle read XY
-  Serial.print(accelerometer.angleXY);
-  Serial.print(",");
-  
+  Serial.print(accelerometer.angleXY); Serial.print(","); 
 }
 
 void readDataR() {
-  digitalWrite(s0, HIGH); 
   
-  accelerometer.read();
-
-  // Accelerometer X read
-  Serial.print(accelerometer.x);
-  Serial.print(",");  // tab
-
-  // Accelerometer Y read
-  Serial.print(accelerometer.y);
-  Serial.print(",");  // tab
-
-  // Accelerometer Z read
-  Serial.print(accelerometer.z);
-  Serial.print(",");  // tab
-
-  // Angle read XZ
-  Serial.print(accelerometer.angleXZ);
-  Serial.print(",");
-
-  // Angle read YZ
-  Serial.print(accelerometer.angleYZ);
-  Serial.print(",");
-
-  // Angle read XY
-  Serial.print(accelerometer.angleXY);
-  Serial.println(",");
+  accelerometer2.getMotion6(&ax, &ay, &az, &gx, &gy, &gz);
+  
+  Serial.print(ax); Serial.print(",");
+  Serial.print(ay); Serial.print(",");
+  Serial.print(az); Serial.print(",");
+  Serial.print(gx); Serial.print(",");
+  Serial.print(gy); Serial.print(",");
+  Serial.print(gz); Serial.println(","); 
 }
 
+/*
+ * Prints
+ */
 void readFootPads(){
     // Left footpad
   Serial.print(digitalRead(LPad));
