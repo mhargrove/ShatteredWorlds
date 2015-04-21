@@ -38,6 +38,7 @@ public class MouseLook : MonoBehaviour {
 	private float moveVertical;
 	private int turn;
 	private float rotationX;
+	private bool fired = false;
 
 	void Update ()
 	{
@@ -69,8 +70,9 @@ public class MouseLook : MonoBehaviour {
 			turn = 1;
 		else if (turnHorizontal == 0 && turnVertical == -1)
 			turn = -1;
-		else if (turnHorizontal == 1 && turnVertical == -1) {
-			//this should be shoot/chop tree down gesture
+		else if (turnHorizontal == 1 && turnVertical == -1 && !fired) {
+			//shoot/chop tree down gesture
+			StartCoroutine(Shoot ());
 		}
 
 		if (axes == RotationAxes.MouseXAndY)
@@ -96,12 +98,13 @@ public class MouseLook : MonoBehaviour {
 	}
 
 	IEnumerator Shoot(){
-
+		fired = true;
 		yield return new WaitForSeconds (1f);
+		GetComponent<Shoot> ().Fire ();
+		fired = false;
 	}
 
 
-	
 	void Start ()
 	{
 		arduinoController = GameObject.Find ("ArduinoData");
