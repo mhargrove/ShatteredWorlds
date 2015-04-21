@@ -44,26 +44,33 @@ public class FPSInputController : MonoBehaviour
         motor = GetComponent<CharacterMotor>();
     }
 
+	private int leftFoot;
+	private int rightFoot;
+	private float moveHorizontal;
+	private float vertical;
+	private float horizontal;
+	private Vector3 directionVector; 
+
     // Update is called once per frame
     void Update()
     {
 		//arduino data
-		int leftFoot = arduinoController.GetComponent<ArduinoController> ().readLeftFootpad (); 
-		int rightFoot = arduinoController.GetComponent<ArduinoController> ().readRightFootpad (); 
-		float moveHorizontal = arduinoController.GetComponent<ArduinoController> ().getLeftAccelData ().y;
-		float vertical = 0;
-		float horizontal = 0;
+		leftFoot = arduinoController.GetComponent<ArduinoController> ().readLeftFootpad (); 
+		rightFoot = arduinoController.GetComponent<ArduinoController> ().readRightFootpad (); 
+		moveHorizontal = arduinoController.GetComponent<ArduinoController> ().getLeftAccelData ().y;
+		vertical = 0;
+		horizontal = 0;
 
 		//Debug.Log ("LeftFoot = " + leftFoot + "RightFoot = " + rightFoot + "acceleromenter y = " + moveHorizontal);
 
-		if (((leftFoot == 1 && rightFoot == 1) || (leftFoot == 0 && rightFoot == 0))) {
+		if (leftFoot == rightFoot) {
 			vertical = 0;
-		} else if (leftFoot == 1 && rightFoot == 0 && canLeft) {
+		} else if (leftFoot == 1 && canLeft) {
 			vertical = 10;
 			canLeft = false;
 			canRight = true;
 			UIcontroller.GetComponent<UIController> ().updateStepsTaken ();
-		} else if (leftFoot == 0 && rightFoot == 1 && canRight) {
+		} else if (rightFoot == 1 && canRight) {
 			vertical = 10;	
 			canRight = false;
 			canLeft = true;
@@ -80,7 +87,7 @@ public class FPSInputController : MonoBehaviour
 
 
         //Pass the arduino data to the direction vector
-        Vector3 directionVector = new Vector3(horizontal, 0, vertical);
+        directionVector = new Vector3(horizontal, 0, vertical);
 		//Vector3 directionVector = new Vector3 (0, 0, 0);
         if (directionVector != Vector3.zero) {
 			timeTilBlackness = 10;
