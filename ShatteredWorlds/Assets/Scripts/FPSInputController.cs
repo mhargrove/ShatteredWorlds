@@ -29,6 +29,15 @@ public class FPSInputController : MonoBehaviour
 	private bool canRight = true;
 	// Use this for initialization
 
+	private int leftFoot;
+	private int rightFoot;
+	private float moveHorizontal;
+	private float vertical;
+	private float horizontal;
+	private Vector3 directionVector; 
+	private Vector3 directionLength;
+	private float time;
+
 	void Start()
 	{
 		arduinoController = GameObject.Find ("ArduinoData");
@@ -38,18 +47,13 @@ public class FPSInputController : MonoBehaviour
 			Debug.Log ("Why is this null and still working");
 		fadeInOut = GameObject.FindGameObjectWithTag ("Fader");
 		audioController = GameObject.Find ("audioController");
+		directionVector = Vector3.zero;
+		time = 0;
 	}
     void Awake()
     {
         motor = GetComponent<CharacterMotor>();
     }
-
-	private int leftFoot;
-	private int rightFoot;
-	private float moveHorizontal;
-	private float vertical;
-	private float horizontal;
-	private Vector3 directionVector; 
 
     // Update is called once per frame
     void Update()
@@ -63,6 +67,11 @@ public class FPSInputController : MonoBehaviour
 
 		//Debug.Log ("LeftFoot = " + leftFoot + "RightFoot = " + rightFoot + "acceleromenter y = " + moveHorizontal);
 
+		//if player stands still for one second, movement logic is reset (left,right,etc. sequence)
+		if (time > 1000f) {
+			canLeft = true;
+			canRight = true;
+		}
 		if (leftFoot == rightFoot) {
 			vertical = 0;
 		} else if (leftFoot == 1 && canLeft) {
@@ -95,7 +104,7 @@ public class FPSInputController : MonoBehaviour
 			
 			// Get the length of the directon vector and then normalize it
 			// Dividing by the length is cheaper than normalizing when we already have the length anyway
-			float directionLength = directionVector.magnitude;
+			directionLength = directionVector.magnitude;
 			directionVector = directionVector / directionLength;
 
 			// Make sure the length is no bigger than 1
@@ -107,6 +116,7 @@ public class FPSInputController : MonoBehaviour
 
 			// Multiply the normalized direction vector by the modified length
 			directionVector = directionVector * directionLength;
+			print ("dirVector="+directionVector+" dirLength="+directionLength);
 		} 
 		else 
 		{
@@ -120,10 +130,23 @@ public class FPSInputController : MonoBehaviour
 		}
 
 	
-	// Apply the direction to the CharacterMotor
-        motor.inputMoveDirection = transform.rotation * directionVector;
+	// Apply the direction to the CharacterMotor 
+        //motor.inputMoveDirection = transform.rotation * directionVector;
+		if (directionVector != Vector3.zero) {
+			StartCoroutine (Step (directionVector));
+			time = 0;
+		}
+		time += Time.deltaTime;
         motor.inputJump = Input.GetButton("Jump");
     }
+
+	IEnumerator Step(Vector3 dir){
+			motor.inputMoveDirection = transform.rotation * dir;
+			yield return new WaitForSeconds (0.25f);
+			motor.inputMoveDirection = transform.rotation * Vector3.zero;
+	}
+
+
 
 	public void DestroyClones(string tag, float time) 
 	{
