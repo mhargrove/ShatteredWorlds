@@ -152,25 +152,34 @@ public class ArduinoController : MonoBehaviour {
 	 *	Guesses the port name for unix based machines. Taken from Uniduino library 
 	 */
 	
-	public static string guessPortName()
-	{			
-		var devices = System.IO.Ports.SerialPort.GetPortNames();
+	public static string guessPortName ()
+	{	
+
+		if (Application.platform == RuntimePlatform.WindowsEditor || Application.platform == RuntimePlatform.WindowsPlayer || Application.platform == RuntimePlatform.WindowsWebPlayer) {
+			var devices = System.IO.Ports.SerialPort.GetPortNames ();
+			
+			if (devices.Length == 0) { //
+				return "COM3"; 	
+			} else
+				return devices [0];	
+
+		} else {
+			var devices = System.IO.Ports.SerialPort.GetPortNames ();
 		
-		if (devices.Length ==0) 
-		{
-			devices = System.IO.Directory.GetFiles("/dev/");		
-		}
-		
-		string dev = ""; ;			
-		foreach (var d in devices)
-		{				
-			if (d.StartsWith("/dev/tty.usb") || d.StartsWith("/dev/ttyUSB"))
-			{
-				dev = d;
-				break;
+			if (devices.Length == 0) {
+				devices = System.IO.Directory.GetFiles ("/dev/");		
 			}
-		}		
-		return dev;		
+		
+			string dev = "";
+			;			
+			foreach (var d in devices) {				
+				if (d.StartsWith ("/dev/tty.usb") || d.StartsWith ("/dev/ttyUSB")) {
+					dev = d;
+					break;
+				}
+			}
+			return dev;		
+		}
 	}
 	
 	void OnApplicationQuit() 
