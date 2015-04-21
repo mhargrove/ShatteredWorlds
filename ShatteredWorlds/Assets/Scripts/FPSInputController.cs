@@ -142,7 +142,7 @@ public class FPSInputController : MonoBehaviour
 
 	IEnumerator Step(Vector3 dir){
 			motor.inputMoveDirection = transform.rotation * dir;
-			yield return new WaitForSeconds (0.25f);
+			yield return new WaitForSeconds (0.2f);
 			motor.inputMoveDirection = transform.rotation * Vector3.zero;
 	}
 
