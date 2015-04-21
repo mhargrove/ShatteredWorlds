@@ -35,7 +35,7 @@ public class FPSInputController : MonoBehaviour
 	private float vertical;
 	private float horizontal;
 	private Vector3 directionVector; 
-	private Vector3 directionLength;
+	private float directionLength;
 	private float time;
 
 	void Start()
