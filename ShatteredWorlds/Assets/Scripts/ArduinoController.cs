@@ -83,6 +83,7 @@ public class ArduinoController : MonoBehaviour {
 			angleXY_right = float.Parse (str[13]); 
 			
 		}catch{
+			print ("bug");
 		}
 	}
 	

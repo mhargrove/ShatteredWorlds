@@ -29,6 +29,15 @@ public class FPSInputController : MonoBehaviour
 	private bool canRight = true;
 	// Use this for initialization
 
+	private int leftFoot;
+	private int rightFoot;
+	private float moveHorizontal;
+	private float vertical;
+	private float horizontal;
+	private Vector3 directionVector; 
+	private float directionLength;
+	private float time;
+
 	void Start()
 	{
 		arduinoController = GameObject.Find ("ArduinoData");
@@ -38,6 +47,8 @@ public class FPSInputController : MonoBehaviour
 			Debug.Log ("Why is this null and still working");
 		fadeInOut = GameObject.FindGameObjectWithTag ("Fader");
 		audioController = GameObject.Find ("audioController");
+		directionVector = Vector3.zero;
+		time = 0;
 	}
     void Awake()
     {
@@ -48,22 +59,27 @@ public class FPSInputController : MonoBehaviour
     void Update()
     {
 		//arduino data
-		int leftFoot = arduinoController.GetComponent<ArduinoController> ().readLeftFootpad (); 
-		int rightFoot = arduinoController.GetComponent<ArduinoController> ().readRightFootpad (); 
-		float moveHorizontal = arduinoController.GetComponent<ArduinoController> ().getLeftAccelData ().y;
-		float vertical = 0;
-		float horizontal = 0;
+		leftFoot = arduinoController.GetComponent<ArduinoController> ().readLeftFootpad (); 
+		rightFoot = arduinoController.GetComponent<ArduinoController> ().readRightFootpad (); 
+		moveHorizontal = arduinoController.GetComponent<ArduinoController> ().getLeftAccelData ().y;
+		vertical = 0;
+		horizontal = 0;
 
 		//Debug.Log ("LeftFoot = " + leftFoot + "RightFoot = " + rightFoot + "acceleromenter y = " + moveHorizontal);
 
-		if (((leftFoot == 1 && rightFoot == 1) || (leftFoot == 0 && rightFoot == 0))) {
+		//if player stands still for one second, movement logic is reset (left,right,etc. sequence)
+		if (time > 1000f) {
+			canLeft = true;
+			canRight = true;
+		}
+		if (leftFoot == rightFoot) {
 			vertical = 0;
-		} else if (leftFoot == 1 && rightFoot == 0 && canLeft) {
+		} else if (leftFoot == 1 && canLeft) {
 			vertical = 10;
 			canLeft = false;
 			canRight = true;
 			UIcontroller.GetComponent<UIController> ().updateStepsTaken ();
-		} else if (leftFoot == 0 && rightFoot == 1 && canRight) {
+		} else if (rightFoot == 1 && canRight) {
 			vertical = 10;	
 			canRight = false;
 			canLeft = true;
@@ -80,7 +96,7 @@ public class FPSInputController : MonoBehaviour
 
 
         //Pass the arduino data to the direction vector
-        Vector3 directionVector = new Vector3(horizontal, 0, vertical);
+        directionVector = new Vector3(horizontal, 0, vertical);
 		//Vector3 directionVector = new Vector3 (0, 0, 0);
         if (directionVector != Vector3.zero) {
 			timeTilBlackness = 10;
@@ -88,7 +104,7 @@ public class FPSInputController : MonoBehaviour
 			
 			// Get the length of the directon vector and then normalize it
 			// Dividing by the length is cheaper than normalizing when we already have the length anyway
-			float directionLength = directionVector.magnitude;
+			directionLength = directionVector.magnitude;
 			directionVector = directionVector / directionLength;
 
 			// Make sure the length is no bigger than 1
@@ -100,6 +116,7 @@ public class FPSInputController : MonoBehaviour
 
 			// Multiply the normalized direction vector by the modified length
 			directionVector = directionVector * directionLength;
+			print ("dirVector="+directionVector+" dirLength="+directionLength);
 		} 
 		else 
 		{
@@ -113,10 +130,23 @@ public class FPSInputController : MonoBehaviour
 		}
 
 	
-	// Apply the direction to the CharacterMotor
-        motor.inputMoveDirection = transform.rotation * directionVector;
+	// Apply the direction to the CharacterMotor 
+        //motor.inputMoveDirection = transform.rotation * directionVector;
+		if (directionVector != Vector3.zero) {
+			StartCoroutine (Step (directionVector));
+			time = 0;
+		}
+		time += Time.deltaTime;
         motor.inputJump = Input.GetButton("Jump");
     }
+
+	IEnumerator Step(Vector3 dir){
+			motor.inputMoveDirection = transform.rotation * dir;
+			yield return new WaitForSeconds (0.2f);
+			motor.inputMoveDirection = transform.rotation * Vector3.zero;
+	}
+
+
 
 	public void DestroyClones(string tag, float time) 
 	{
