@@ -9,11 +9,14 @@ public class ObjectController : MonoBehaviour {
 	public GameObject treeRemains;
 	public GameObject audioController;
 	public GameObject UIcontroller;
+	public GameObject fadeInOut;
 
 	void Start () {
 		// All interactions with objects that have sound can have the sounds played throguh the audioController
 		audioController = GameObject.Find( "audioController" );
 		UIcontroller = GameObject.Find ("UI");
+		fadeInOut = GameObject.FindGameObjectWithTag ("Fader");
+
 	}
 	
 	// Update is called once per frame
@@ -39,9 +42,20 @@ public class ObjectController : MonoBehaviour {
 	//		DestroyClones("TreeRemains", 3.0f);
 		}
 
+		if (collider.gameObject.tag == "Level1Selector" || collider.gameObject.tag == "Level2Selector")
+		{
+			Vector3 pos = collider.gameObject.transform.position + (collider.gameObject.transform.forward * 2);
+			pos.y = pos.y + 1f;
+			Instantiate(lightPrefab, pos, Quaternion.identity);
+			//Instantiate(treeRemains, this.transform.position, Quaternion.identity);
+			Destroy (gameObject);
+			audioController.GetComponent<AudioController> ().playTreeExplosionSfx ();
 
-
-
+			if (collider.gameObject.tag == "Level1Selector")
+			    fadeInOut.GetComponent<SceneFadeInOut> ().LoadScene(2);
+			else
+				fadeInOut.GetComponent<SceneFadeInOut> ().LoadScene(4);
+		}
 	}
 	void OnCollisionEnter(Collision collision)
 	{
