@@ -29,8 +29,16 @@ public class SceneFadeInOut : MonoBehaviour {
 			EndScene ();
 	}
 
-	
-	void FadeToClear ()
+	public void SuddenClear ()
+	{
+		while (fadeCanvas.alpha >= 0.05) 
+		{
+			fadeCanvas.alpha -= fadeSpeed * Time.deltaTime;
+		}
+	}
+
+
+	public void FadeToClear ()
 	{
 		fadeCanvas.alpha -= fadeSpeed * Time.deltaTime;
 	}
