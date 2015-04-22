@@ -34,7 +34,8 @@ public class ObjectController : MonoBehaviour {
 			audioController.GetComponent<AudioController> ().playTreeExplosionSfx ();
 			UIcontroller.GetComponent<UIController>().updateTreesDestroyed();
 			DestroyClones("Clone", 6.0f);
-			Destroy(collider.gameObject);
+			if (collider.gameObject.tag != "Player")
+			    Destroy(collider.gameObject);
 	//		DestroyClones("TreeRemains", 3.0f);
 		}
 
