@@ -25,16 +25,24 @@ public class Shoot : MonoBehaviour {
 
 	public void Fire(int type)
 	{
-		audioController.GetComponent<AudioController> ().playMissileLaunch ();
 		Vector3 spawnPos = new Vector3 (this.transform.position.x - 1.0f, this.transform.position.y, this.transform.position.z)+ this.transform.forward * 3;
 		//Vector3 spawnPos = this.transform.position + this.transform.forward * 3;
 		Vector3 forcePos = this.transform.forward + new Vector3 (0.15f, 1.0f, 0.15f);
+<<<<<<< HEAD
 
 		if (type == 1)
 	        clone = Instantiate (projectile, spawnPos, Quaternion.identity) as GameObject;
 		else if (type == 2)
+=======
+		GameObject clone = new GameObject ();
+		if (type == 1) {
+			clone = Instantiate (projectile, spawnPos, Quaternion.identity) as GameObject;
+			audioController.GetComponent<AudioController> ().playMissileLaunch ();
+		} else if (type == 2) {
+>>>>>>> 33d208fefdc184f77e6210556d95435c6e15de93
 			clone = Instantiate (projectile2, spawnPos, Quaternion.identity) as GameObject;
-
+			audioController.GetComponent<AudioController> ().playMissileLaunch2 ();
+		}
 		clone.GetComponent<Rigidbody>().AddForce((this.transform.forward + forcePos) * projectileSpeed);
 
 

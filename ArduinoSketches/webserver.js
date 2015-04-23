@@ -2,7 +2,7 @@
 // Stolen from: Node.js for Front-End Developers by Garann Means (p. 9-10) 
 
 var port = 8000;
-var serverUrl = "130.39.239.113";
+var serverUrl = "130.39.209.71";
 
 var http = require("http");
 var path = require("path"); 
