@@ -73,7 +73,7 @@ public class SceneFadeInOut : MonoBehaviour {
 			// ... reload the level.
 		if(fadeCanvas.alpha >= 0.95f)
 		{
-			Application.LoadLevel(4);
+			Application.LoadLevel(3);
 		}
 	
 	}
