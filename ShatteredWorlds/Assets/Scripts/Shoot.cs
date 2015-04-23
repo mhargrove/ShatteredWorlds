@@ -5,6 +5,7 @@ using System.Linq;
 public class Shoot : MonoBehaviour {
 
 	public GameObject projectile;
+	public GameObject projectile2;
 	public float projectileSpeed = 1000.0f;
 	public GameObject audioController;
 	// Use this for initialization
@@ -17,17 +18,22 @@ public class Shoot : MonoBehaviour {
 
 		if (Input.GetKeyDown(KeyCode.F))
 		{
-			Fire ();
+			Fire (2);
 		}
 	}
 
-	public void Fire()
+	public void Fire(int type)
 	{
 		audioController.GetComponent<AudioController> ().playMissileLaunch ();
 		Vector3 spawnPos = new Vector3 (this.transform.position.x - 1.0f, this.transform.position.y, this.transform.position.z)+ this.transform.forward * 3;
 		//Vector3 spawnPos = this.transform.position + this.transform.forward * 3;
 		Vector3 forcePos = this.transform.forward + new Vector3 (0.15f, 1.0f, 0.15f);
-		GameObject clone = Instantiate (projectile, spawnPos, Quaternion.identity) as GameObject;
+		GameObject clone = new GameObject ();
+		if (type == 1)
+	        clone = Instantiate (projectile, spawnPos, Quaternion.identity) as GameObject;
+		else if (type == 2)
+			clone = Instantiate (projectile2, spawnPos, Quaternion.identity) as GameObject;
+
 		clone.GetComponent<Rigidbody>().AddForce((this.transform.forward + forcePos) * projectileSpeed);
 
 

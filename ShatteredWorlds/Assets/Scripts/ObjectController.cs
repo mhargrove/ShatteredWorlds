@@ -27,34 +27,32 @@ public class ObjectController : MonoBehaviour {
 	//Detect Collision Between attached object and the colliding gameojbect
 	void OnTriggerEnter(Collider collider)
 	{
-		Debug.Log ("Collision Detected with " + collider.gameObject.tag);
+		Debug.Log (gameObject.tag + ": Collision Detected with " + collider.gameObject.tag);
 		if (collider.gameObject.tag == "Player" || collider.gameObject.tag == "Projectile") {
 			Vector3 pos = collider.gameObject.transform.position + (collider.gameObject.transform.forward * 2);
 			pos.y = pos.y + 1f;
 			Instantiate(lightPrefab, pos, Quaternion.identity);
 			//Instantiate(treeRemains, this.transform.position, Quaternion.identity);
 		    Destroy (gameObject);
-			audioController.GetComponent<AudioController> ().playTreeExplosionSfx ();
-			UIcontroller.GetComponent<UIController>().updateTreesDestroyed();
+			if (gameObject.tag == "Trees")
+			    audioController.GetComponent<AudioController> ().playTreeExplosionSfx ();
+			else if (gameObject.tag == "Trees2")
+				audioController.GetComponent<AudioController> ().playTree2ExplosionSfx ();
+			if (UIcontroller)
+				UIcontroller.GetComponent<UIController>().updateTreesDestroyed();
 			DestroyClones("Clone", 6.0f);
 			if (collider.gameObject.tag != "Player")
 			    Destroy(collider.gameObject);
 	//		DestroyClones("TreeRemains", 3.0f);
 		}
 
-		if (collider.gameObject.tag == "Level1Selector" || collider.gameObject.tag == "Level2Selector")
+		if (gameObject.tag == "Level1Selector" && collider.gameObject.tag == "Projectile")
+		{	
+			fadeInOut.GetComponent<SceneFadeInOut> ().LoadScene(2);
+		}
+		else if (gameObject.tag == "Level2Selector" && collider.gameObject.tag == "Projectile")
 		{
-			Vector3 pos = collider.gameObject.transform.position + (collider.gameObject.transform.forward * 2);
-			pos.y = pos.y + 1f;
-			Instantiate(lightPrefab, pos, Quaternion.identity);
-			//Instantiate(treeRemains, this.transform.position, Quaternion.identity);
-			Destroy (gameObject);
-			audioController.GetComponent<AudioController> ().playTreeExplosionSfx ();
-
-			if (collider.gameObject.tag == "Level1Selector")
-			    fadeInOut.GetComponent<SceneFadeInOut> ().LoadScene(2);
-			else
-				fadeInOut.GetComponent<SceneFadeInOut> ().LoadScene(4);
+			fadeInOut.GetComponent<SceneFadeInOut> ().LoadScene(4);
 		}
 	}
 	void OnCollisionEnter(Collision collision)

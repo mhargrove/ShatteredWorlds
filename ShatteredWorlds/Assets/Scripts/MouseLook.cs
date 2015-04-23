@@ -100,7 +100,10 @@ public class MouseLook : MonoBehaviour {
 	IEnumerator Shoot(){
 		fired = true;
 		yield return new WaitForSeconds (1f);
-		GetComponent<Shoot> ().Fire ();
+		if (Application.loadedLevel == 4)
+			GetComponent<Shoot> ().Fire (2);
+		else
+			GetComponent<Shoot> ().Fire (1);
 		fired = false;
 	}
 

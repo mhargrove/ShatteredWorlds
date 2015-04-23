@@ -8,11 +8,13 @@ public class AudioController : MonoBehaviour {
 	//REMEMBER, you must drag the SFX onto the AudioController in your scene to hydrate the variable
 
 	public GameObject treeExplosionSfx;
+	public GameObject tree2ExplosionSfx;
 	public GameObject ambience2;
 	public GameObject ambience3;
 	public GameObject glassBell;
 	public GameObject missileLaunch;
 	public GameObject blackness;
+	public GameObject mongolAmbience;
 	// Use this for initialization
 
 	public GameObject player;
@@ -46,8 +48,19 @@ public class AudioController : MonoBehaviour {
 	}
 	public void loopMusic()
 	{
-		if (!ambience2.GetComponent<AudioSource> ().isPlaying)
-			 ambience2.GetComponent<AudioSource> ().Play ();
+		if (Application.loadedLevel == 0 || Application.loadedLevel == 1 || Application.loadedLevel == 2 || Application.loadedLevel == 3) {
+			if (mongolAmbience.GetComponent<AudioSource> ().isPlaying)
+				mongolAmbience.GetComponent<AudioSource> ().Stop();
+			if (!ambience2.GetComponent<AudioSource> ().isPlaying)
+				ambience2.GetComponent<AudioSource> ().Play ();
+		} 
+		else if (Application.loadedLevel == 4) 
+		{
+			if (!mongolAmbience.GetComponent<AudioSource> ().isPlaying)
+				mongolAmbience.GetComponent<AudioSource> ().Play ();
+			if (ambience2.GetComponent<AudioSource> ().isPlaying)
+				ambience2.GetComponent<AudioSource> ().Stop ();
+		}
 	}
 	public void playGlassBell()
 	{
@@ -67,6 +80,12 @@ public class AudioController : MonoBehaviour {
 		if (blackness.GetComponent<AudioSource> ().isPlaying)
 			blackness.GetComponent<AudioSource> ().Stop ();
 	}
+
+	public void playTree2ExplosionSfx()
+	{
+		tree2ExplosionSfx.GetComponent<AudioSource> ().Play ();
+	}
+
 
 	/*TODO: Sound for:
 	 * 					FOOTSTEPS

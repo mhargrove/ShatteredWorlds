@@ -72,13 +72,14 @@ public class SceneFadeInOut : MonoBehaviour {
 
 	public void LoadScene(int level)
 	{
-		FadeToBlack ();
+		while (fadeCanvas.alpha < 0.95) {
+			FadeToBlack ();
+		}
 		
 		// If the screen is almost black.
 		// ... reload the level.
-		if (fadeCanvas.alpha >= 0.95f) {
-			Application.LoadLevel (level);
-		}
+		Application.LoadLevel (level);
+
 	}
 
 }
