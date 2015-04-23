@@ -80,6 +80,7 @@ public class SceneFadeInOut : MonoBehaviour {
 
 	public void LoadScene(int level)
 	{
+		sceneStarting = true;
 		while (fadeCanvas.alpha < 0.95) {
 			FadeToBlack ();
 		}

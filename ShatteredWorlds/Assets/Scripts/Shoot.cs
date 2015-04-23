@@ -8,6 +8,7 @@ public class Shoot : MonoBehaviour {
 	public GameObject projectile2;
 	public float projectileSpeed = 1000.0f;
 	public GameObject audioController;
+	private GameObject clone = new GameObject ();
 	// Use this for initialization
 	void Start () {
 		audioController = GameObject.Find( "audioController" );
@@ -28,7 +29,7 @@ public class Shoot : MonoBehaviour {
 		Vector3 spawnPos = new Vector3 (this.transform.position.x - 1.0f, this.transform.position.y, this.transform.position.z)+ this.transform.forward * 3;
 		//Vector3 spawnPos = this.transform.position + this.transform.forward * 3;
 		Vector3 forcePos = this.transform.forward + new Vector3 (0.15f, 1.0f, 0.15f);
-		GameObject clone = new GameObject ();
+
 		if (type == 1)
 	        clone = Instantiate (projectile, spawnPos, Quaternion.identity) as GameObject;
 		else if (type == 2)
