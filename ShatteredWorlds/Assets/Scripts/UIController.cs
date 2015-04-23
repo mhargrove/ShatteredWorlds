@@ -16,7 +16,11 @@ public class UIController : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 
-		treesTotal = GameObject.FindGameObjectsWithTag ("Trees").Length;
+		if (Application.loadedLevelName == "Test") {
+			treesTotal = GameObject.FindGameObjectsWithTag ("Trees").Length;
+		} else if (Application.loadedLevelName == "Level2") {
+			treesTotal = GameObject.FindGameObjectsWithTag ("Trees2").Length;
+		}
 		treeCount.text = treesDestroyed + " / " + treesTotal;
 
 	
@@ -27,23 +31,26 @@ public class UIController : MonoBehaviour {
 		treesDestroyed++;
 		treeCount.text = treesDestroyed + " / " + treesTotal;
 	}
-
-	// TODO: fix this to only add 1 step at a time (currently adding as long as pressed)
+	
 	public void updateStepsTaken ()
 	{
 		stepsTaken++;
 		stepCount.text = stepsTaken + "";
 	}
 
+	private int minutes;
+	private int seconds;
+	private int millis;
+	private string niceTime;
 	// Update is called once per frame
 	void Update ()
 	{
 		timer += Time.deltaTime;
-		int minutes = Mathf.FloorToInt (timer / 60F);
-		int seconds = Mathf.FloorToInt (timer - minutes * 60F);
-		int millis = Mathf.FloorToInt ((timer * 1000) % 1000F);
+		minutes = Mathf.FloorToInt (timer / 60F);
+		seconds = Mathf.FloorToInt (timer - minutes * 60F);
+		millis = Mathf.FloorToInt ((timer * 1000) % 1000F);
 		
-		string niceTime = string.Format ("{0:00}:{1:00}:{2:00}", minutes, seconds, millis);
+		niceTime = string.Format ("{0:00}:{1:00}:{2:00}", minutes, seconds, millis);
 		timeCount.text = niceTime;
 	}
 }

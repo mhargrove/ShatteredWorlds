@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
+
 // Require a character controller to be attached to the same game object
 [RequireComponent(typeof(CharacterMotor))]
 [AddComponentMenu("Character/FPS Input Controller")]
@@ -13,14 +14,29 @@ public class FPSInputController : MonoBehaviour
 	public GameObject arduinoController;
 	public GameObject UIcontroller;
 	public GameObject gameController;
+	public GameObject audioController;
 
 	public bool fadingToBlack = false;
 	public bool initialSceneBlack= true;
 	public float startBlackness = 0;
 	public float endBlackness = 6;
+	public float timeTilBlackness = 10;
 	public Transform fadeToBlack;
 	public GameObject blackScreen;
+	public GameObject fadeInOut;
+	
+	private bool canLeft = true;
+	private bool canRight = true;
 	// Use this for initialization
+
+	private int leftFoot;
+	private int rightFoot;
+	private float moveHorizontal;
+	private float vertical;
+	private float horizontal;
+	private Vector3 directionVector; 
+	private float directionLength;
+	private float time;
 
 	void Start()
 	{
@@ -29,6 +45,10 @@ public class FPSInputController : MonoBehaviour
 		UIcontroller = GameObject.Find ("UI");
 		if (arduinoController == null)
 			Debug.Log ("Why is this null and still working");
+		fadeInOut = GameObject.FindGameObjectWithTag ("Fader");
+		audioController = GameObject.Find ("audioController");
+		directionVector = Vector3.zero;
+		time = 0;
 	}
     void Awake()
     {
@@ -38,25 +58,35 @@ public class FPSInputController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
 		//arduino data
-		int leftFoot = arduinoController.GetComponent<ArduinoController> ().readLeftFootpad (); 
-		int rightFoot = arduinoController.GetComponent<ArduinoController> ().readRightFootpad (); 
-	//	float moveHorizontal = arduinoController.GetComponent<ArduinoController> ().getLeftAccelData ().y;
-		float vertical = 0;
-		float horizontal = 0;
+		leftFoot = arduinoController.GetComponent<ArduinoController> ().readLeftFootpad (); 
+		rightFoot = arduinoController.GetComponent<ArduinoController> ().readRightFootpad (); 
+		moveHorizontal = arduinoController.GetComponent<ArduinoController> ().getLeftAccelData ().y;
+		vertical = 0;
+		horizontal = 0;
 
 		//Debug.Log ("LeftFoot = " + leftFoot + "RightFoot = " + rightFoot + "acceleromenter y = " + moveHorizontal);
 
-		if (((leftFoot == 1 && rightFoot == 1) || (leftFoot == 0 && rightFoot == 0))) {
+		//if player stands still for one second, movement logic is reset (left,right,etc. sequence)
+		if (time > 1000f) {
+			canLeft = true;
+			canRight = true;
+		}
+		if (leftFoot == rightFoot) {
 			vertical = 0;
-		} else if (leftFoot == 1 && rightFoot == 0) {
-			vertical = 1;
+		} else if (leftFoot == 1 && canLeft) {
+			vertical = 10;
+			canLeft = false;
+			canRight = true;
 			UIcontroller.GetComponent<UIController> ().updateStepsTaken ();
-		} else if (leftFoot == 0 && rightFoot == 1) {
-			vertical = 1;	
+		} else if (rightFoot == 1 && canRight) {
+			vertical = 10;	
+			canRight = false;
+			canLeft = true;
 			UIcontroller.GetComponent<UIController> ().updateStepsTaken ();
 		}
+
+
 		/*if (moveHorizontal > -5000.0f && moveHorizontal < 5000.0f) {
 			horizontal = 0;
 		} else if (moveHorizontal > 5000.0f)
@@ -66,21 +96,18 @@ public class FPSInputController : MonoBehaviour
 
 
         //Pass the arduino data to the direction vector
-        Vector3 directionVector = new Vector3(horizontal, 0, vertical);
+        directionVector = new Vector3(horizontal, 0, vertical);
 		//Vector3 directionVector = new Vector3 (0, 0, 0);
         if (directionVector != Vector3.zero) {
-
-			DestroyClones ("DarkMist", 0.2f);
-			fadingToBlack = false;
-			if (initialSceneBlack) {
-				//levels initially load black, once you move set initialSceneBlack to false and destroy the black screen
-				Destroy(GameObject.FindGameObjectWithTag("BlackScreen"));
-				initialSceneBlack = false;
+			timeTilBlackness = 10;
+			if (!fadeInOut.GetComponent<SceneFadeInOut>().sceneStarting){
+			audioController.GetComponent<AudioController> ().stopBlackness();
+			fadeInOut.GetComponent<SceneFadeInOut> ().SuddenClear ();
 			}
 			
 			// Get the length of the directon vector and then normalize it
 			// Dividing by the length is cheaper than normalizing when we already have the length anyway
-			float directionLength = directionVector.magnitude;
+			directionLength = directionVector.magnitude;
 			directionVector = directionVector / directionLength;
 
 			// Make sure the length is no bigger than 1
@@ -92,33 +119,37 @@ public class FPSInputController : MonoBehaviour
 
 			// Multiply the normalized direction vector by the modified length
 			directionVector = directionVector * directionLength;
+			print ("dirVector="+directionVector+" dirLength="+directionLength);
 		} 
-		else
+		else 
 		{
-			Vector3 pos = this.transform.position + this.transform.forward * 3;
-			startBlackness+= Time.deltaTime;
-			if (!fadingToBlack){
-				Instantiate (fadeToBlack, new Vector3 (pos.x,pos.y, pos.z + 4.0f) , Quaternion.identity);
-				Instantiate (fadeToBlack, new Vector3 (pos.x + 4.0f,pos.y + 2.0f, pos.z + 4.0f) , Quaternion.identity);
-				Instantiate (fadeToBlack, new Vector3 (pos.x - 4.0f,pos.y + 2.0f, pos.z + 4.0f) , Quaternion.identity);
-				fadingToBlack = true;
-				startBlackness = 0;
-			}
-			if (startBlackness >= endBlackness)
-			{
-				//TODO: Change the audio as you are fading into darkness
-				
-				//if the screen is black for 10 seconds, reload a random level, 
-				//or we can change the players position in the map
-				gameController.GetComponent<GameController>().loadRandomLevel();
+			if (!fadeInOut.GetComponent<SceneFadeInOut> ().sceneStarting) {
+				timeTilBlackness -= Time.deltaTime;
+				if (timeTilBlackness < 0) {
+					audioController.GetComponent<AudioController> ().playBlackness();
+					fadeInOut.GetComponent<SceneFadeInOut> ().EndScene ();
+				}
 			}
 		}
 
 	
-	// Apply the direction to the CharacterMotor
-        motor.inputMoveDirection = transform.rotation * directionVector;
+	// Apply the direction to the CharacterMotor 
+        //motor.inputMoveDirection = transform.rotation * directionVector;
+		if (directionVector != Vector3.zero) {
+			StartCoroutine (Step (directionVector));
+			time = 0;
+		}
+		time += Time.deltaTime;
         motor.inputJump = Input.GetButton("Jump");
     }
+
+	IEnumerator Step(Vector3 dir){
+			motor.inputMoveDirection = transform.rotation * dir;
+			yield return new WaitForSeconds (0.2f);
+			motor.inputMoveDirection = transform.rotation * Vector3.zero;
+	}
+
+
 
 	public void DestroyClones(string tag, float time) 
 	{

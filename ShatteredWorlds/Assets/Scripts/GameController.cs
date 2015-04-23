@@ -35,7 +35,7 @@ public class GameController : MonoBehaviour {
 	public void loadRandomLevel()
 	{
 		int x = Random.Range (2, 3);
-		Application.LoadLevel (x);
+		Application.LoadLevel (3);
 	}
 	public void movePlayerToRandomSpot()
 	{
