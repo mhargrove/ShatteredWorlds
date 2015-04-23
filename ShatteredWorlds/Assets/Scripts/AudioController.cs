@@ -88,6 +88,7 @@ public class AudioController : MonoBehaviour {
 
 	public void playTree2ExplosionSfx()
 	{
+		Debug.Log ("playing tree2ExplosionSound");
 		tree2ExplosionSfx.GetComponent<AudioSource> ().Play ();
 	}
 
