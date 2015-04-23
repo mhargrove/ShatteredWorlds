@@ -16,7 +16,11 @@ public class UIController : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 
-		treesTotal = GameObject.FindGameObjectsWithTag ("Trees").Length;
+		if (Application.loadedLevelName == "Test") {
+			treesTotal = GameObject.FindGameObjectsWithTag ("Trees").Length;
+		} else if (Application.loadedLevelName == "Level2") {
+			treesTotal = GameObject.FindGameObjectsWithTag ("Trees2").Length;
+		}
 		treeCount.text = treesDestroyed + " / " + treesTotal;
 
 	
