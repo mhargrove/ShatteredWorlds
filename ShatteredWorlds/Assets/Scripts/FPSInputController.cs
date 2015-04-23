@@ -101,6 +101,7 @@ public class FPSInputController : MonoBehaviour
         if (directionVector != Vector3.zero) {
 			timeTilBlackness = 10;
 			audioController.GetComponent<AudioController> ().stopBlackness();
+			fadeInOut.GetComponent<SceneFadeInOut> ().SuddenClear ();
 			
 			// Get the length of the directon vector and then normalize it
 			// Dividing by the length is cheaper than normalizing when we already have the length anyway

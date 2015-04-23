@@ -27,8 +27,7 @@ public class UIController : MonoBehaviour {
 		treesDestroyed++;
 		treeCount.text = treesDestroyed + " / " + treesTotal;
 	}
-
-	// TODO: fix this to only add 1 step at a time (currently adding as long as pressed)
+	
 	public void updateStepsTaken ()
 	{
 		stepsTaken++;
