@@ -15,9 +15,8 @@ public class ArduinoController : MonoBehaviour {
 	public float z_left; public float z_right; 
 
 	public int leftBump; public int rightBump;
-
-	private string[] str;
 	
+
 //	public float angleXZ_left; public float angleXZ_right; 
 //	public float angleYZ_left; public float angleYZ_right; 
 //	public float angleXY_left; public float angleXY_right; 
@@ -65,23 +64,22 @@ public class ArduinoController : MonoBehaviour {
 	public void readArduinoData()
 	{
 		try{
-			print (inputStream.ReadLine ());
 			string[] str = inputStream.ReadLine ().Split(',');; 
 			
-			leftFootpad = Convert.ToInt32 (str[0]); 
-			rightFootpad = Convert.ToInt32  (str[1]); 
+			leftFootpad = int.Parse (str[0]); 
+			rightFootpad = int.Parse  (str[1]); 
 
-			x_left = Convert.ToSingle (str[2]);
-			y_left = Convert.ToSingle (str[3]);
-			z_left = Convert.ToSingle (str[4]); 
+			x_left = float.Parse (str[2]);
+			y_left = float.Parse (str[3]);
+			z_left = float.Parse (str[4]); 
 
-			leftBump = Convert.ToInt32 (str[5]);
+			leftBump = int.Parse (str[5]);
 
-			x_right = Convert.ToSingle (str[6]);
-			y_right = Convert.ToSingle (str[7]);
-			z_right = Convert.ToSingle (str[8]);
+			x_right = float.Parse (str[6]);
+			y_right = float.Parse (str[7]);
+			z_right = float.Parse (str[8]);
 
-			rightBump = Convert.ToInt32 (str[5]);
+			rightBump = int.Parse (str[5]);
 
 //			x_left = float.Parse (str[2]);
 //			y_left = float.Parse (str[3]);
@@ -107,15 +105,13 @@ public class ArduinoController : MonoBehaviour {
 	 * Returns left accelerometer readings as a vector. Data will need to be normalized
 	 */
 	public Vector3 getLeftAccelData(){
-		//Update (); 
 		return new Vector3 (x_left, y_left, z_left); 
 	}
 	
 	/*
 	 * Returns right accelerometer readings as a vector. Data will need to be normalized
 	 */
-	public Vector3 getRightAccelData(){
-		//Update (); 
+	public Vector3 getRightAccelData(){ 
 		return new Vector3 (x_right, y_right, z_right); 
 	}
 	
@@ -168,7 +164,6 @@ public class ArduinoController : MonoBehaviour {
 	}
 	
 	public void print(){
-		Update (); 
 		print ("LF: "+leftFootpad+" RF: " + rightFootpad + "\t LAccel: ( "+x_left + ", " + y_left + ", " + z_left + ")\t RAccel: ("+x_right + ", " + y_right + ", " + z_right + ")"); 
 	}
 	
