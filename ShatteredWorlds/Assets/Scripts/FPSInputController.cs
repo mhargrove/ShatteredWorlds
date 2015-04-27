@@ -68,7 +68,7 @@ public class FPSInputController : MonoBehaviour
 		//Debug.Log ("LeftFoot = " + leftFoot + "RightFoot = " + rightFoot + "acceleromenter y = " + moveHorizontal);
 
 		//if player stands still for one second, movement logic is reset (left,right,etc. sequence)
-		if (time > 1000f) {
+		if (time > 1.5f) {
 			canLeft = true;
 			canRight = true;
 		}
