@@ -64,7 +64,7 @@ public class ArduinoController : MonoBehaviour {
 	public void readArduinoData()
 	{
 		try{
-			string[] str = inputStream.ReadLine ().Split(',');; 
+			string[] str = inputStream.ReadLine ().Trim ().Split(',');; 
 			
 			leftFootpad = int.Parse (str[0]); 
 			rightFootpad = int.Parse  (str[1]); 
@@ -79,7 +79,7 @@ public class ArduinoController : MonoBehaviour {
 			y_right = float.Parse (str[7]);
 			z_right = float.Parse (str[8]);
 
-			rightBump = int.Parse (str[5]);
+			rightBump = int.Parse (str[9]);
 
 //			x_left = float.Parse (str[2]);
 //			y_left = float.Parse (str[3]);
