@@ -68,11 +68,18 @@ public class FPSInputController : MonoBehaviour
 		//Debug.Log ("LeftFoot = " + leftFoot + "RightFoot = " + rightFoot + "acceleromenter y = " + moveHorizontal);
 
 		//if player stands still for one second, movement logic is reset (left,right,etc. sequence)
-		if (time > 1000f) {
+		if (time > 1.500f) {
 			canLeft = true;
 			canRight = true;
 		}
-		if (leftFoot == rightFoot) {
+		if(Input.GetKeyDown(KeyCode.UpArrow)){
+			print("working");
+			vertical = 10;
+		}
+		else if(Input.GetKeyDown(KeyCode.DownArrow)){
+			vertical = -10; 
+		}
+		else if (leftFoot == rightFoot) {
 			vertical = 0;
 		} else if (leftFoot == 1 && canLeft) {
 			vertical = 10;
