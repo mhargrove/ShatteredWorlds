@@ -157,9 +157,10 @@ public class FPSInputController : MonoBehaviour
     }
 
 	IEnumerator Step(Vector3 dir){
-			motor.inputMoveDirection = transform.rotation * dir;
-			yield return new WaitForSeconds (0.2f);
-			motor.inputMoveDirection = transform.rotation * Vector3.zero;
+		motor.inputMoveDirection = transform.rotation * dir;
+		motor.transform.position = motor.transform.position + transform.forward;
+		yield return new WaitForSeconds (0.1f);
+		motor.inputMoveDirection = transform.rotation * Vector3.zero;;
 	}
 
 	IEnumerator Shoot(){
@@ -173,11 +174,7 @@ public class FPSInputController : MonoBehaviour
 		yield return new WaitForSeconds (fireRate);
 		fired = false;
 	}
-
-
 	
-	
-
 	public void DestroyClones(string tag, float time) 
 	{
 		var clones = GameObject.FindGameObjectsWithTag (tag);
