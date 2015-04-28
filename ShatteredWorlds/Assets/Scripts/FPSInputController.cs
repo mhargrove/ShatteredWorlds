@@ -15,6 +15,7 @@ public class FPSInputController : MonoBehaviour
 	public GameObject UIcontroller;
 	public GameObject gameController;
 	public GameObject audioController;
+	public Shoot shooter;
 
 	public bool fadingToBlack = false;
 	public bool initialSceneBlack= true;
@@ -24,6 +25,7 @@ public class FPSInputController : MonoBehaviour
 	public Transform fadeToBlack;
 	public GameObject blackScreen;
 	public GameObject fadeInOut;
+	public float fireRate = 1.0f;
 	
 	private bool canLeft = true;
 	private bool canRight = true;
@@ -37,6 +39,9 @@ public class FPSInputController : MonoBehaviour
 	private Vector3 directionVector; 
 	private float directionLength;
 	private float time;
+	private int leftBump;
+	private int rightBump;
+	private bool fired;
 
 	void Start()
 	{
@@ -53,6 +58,7 @@ public class FPSInputController : MonoBehaviour
     void Awake()
     {
         motor = GetComponent<CharacterMotor>();
+		shooter = GetComponent<Shoot> ();
     }
 
     // Update is called once per frame
@@ -61,11 +67,17 @@ public class FPSInputController : MonoBehaviour
 		//arduino data
 		leftFoot = arduinoController.GetComponent<ArduinoController> ().readLeftFootpad (); 
 		rightFoot = arduinoController.GetComponent<ArduinoController> ().readRightFootpad (); 
-		moveHorizontal = arduinoController.GetComponent<ArduinoController> ().getLeftAccelData ().y;
+		leftBump = arduinoController.GetComponent<ArduinoController> ().getLeftBump ();
+		rightBump = arduinoController.GetComponent<ArduinoController> ().getRightBump ();
 		vertical = 0;
 		horizontal = 0;
 
 		//Debug.Log ("LeftFoot = " + leftFoot + "RightFoot = " + rightFoot + "acceleromenter y = " + moveHorizontal);
+
+		if ((leftBump == 1) && (rightBump == 1) && !fired) {
+			StartCoroutine(Shoot());
+		}
+
 
 		//if player stands still for one second, movement logic is reset (left,right,etc. sequence)
 		if (time > 1.5f) {
@@ -149,7 +161,19 @@ public class FPSInputController : MonoBehaviour
 			motor.inputMoveDirection = transform.rotation * Vector3.zero;
 	}
 
-
+	IEnumerator Shoot(){
+		fired = true;
+		if(Application.loadedLevel == 4){
+			shooter.Fire(2);
+		}
+		else{
+			shooter.Fire (1);
+		}
+		yield return new WaitForSeconds (fireRate);
+		fired = false;
+	}
+	
+	
 
 	public void DestroyClones(string tag, float time) 
 	{

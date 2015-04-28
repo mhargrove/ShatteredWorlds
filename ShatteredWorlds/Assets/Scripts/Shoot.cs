@@ -9,9 +9,11 @@ public class Shoot : MonoBehaviour {
 	public float projectileSpeed = 1000.0f;
 	public GameObject audioController;
 	private GameObject clone = new GameObject ();
+	public GameObject arduinoController; 
 	// Use this for initialization
 	void Start () {
 		audioController = GameObject.Find( "audioController" );
+		arduinoController = GameObject.Find ("ArduinoData");
 	}
 	
 	// Update is called once per frame
