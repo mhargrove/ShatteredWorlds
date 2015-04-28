@@ -74,7 +74,8 @@ public class UIController : MonoBehaviour {
 			{
 				int level = Application.loadedLevel;
 				gameController.GetComponent<GameController> ().SetStatistics(stepsTaken, niceTime, 0, level);
-		    }
+				sentStats = true;
+			}
 		}
 
 		timer += Time.deltaTime;

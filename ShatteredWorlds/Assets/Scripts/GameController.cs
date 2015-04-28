@@ -8,10 +8,10 @@ public class GameController : MonoBehaviour {
 	//level 1
 	public GameObject blackScreen;
 	public int LastStepsTaken1;
-	public string TimeCompleted1;
+	public string TimeCompleted1 = "";
 	public int TreesDestroyed1;
 	public int LastStepsTaken2;
-	public string TimeCompleted2;
+	public string TimeCompleted2 = "";
 	public int TreesDestroyed2;
 
 
