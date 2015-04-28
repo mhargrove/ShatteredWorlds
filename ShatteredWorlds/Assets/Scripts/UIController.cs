@@ -8,6 +8,13 @@ public class UIController : MonoBehaviour {
 	[SerializeField] private Text stepCount;
 	[SerializeField] private Text timeCount;
 
+	[SerializeField] private Text treeCount1;
+	[SerializeField] private Text stepCount1;
+	[SerializeField] private Text timeCount1;
+	[SerializeField] private Text treeCount2;
+	[SerializeField] private Text stepCount2;
+	[SerializeField] private Text timeCount2;
+
 	public int treesDestroyed = 0;
 	public int treesTotal; 
 	public int stepsTaken = 0;

@@ -25,6 +25,8 @@ public class GameController : MonoBehaviour {
 	void Start()
 	{
 		player = GameObject.FindGameObjectWithTag ("Player");
+		TimeCompleted1 = "";
+		TimeCompleted2 = "";
 	
 	}
 
