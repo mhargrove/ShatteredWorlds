@@ -77,7 +77,6 @@ public class FPSInputController : MonoBehaviour
 			StartCoroutine(Shoot());
 		}
 
-
 		//if player stands still for one second, movement logic is reset (left,right,etc. sequence)
 		if (timeTilBlackness < 8.0f) {
 			canLeft = true;
