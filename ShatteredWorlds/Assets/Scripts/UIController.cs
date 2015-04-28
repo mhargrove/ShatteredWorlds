@@ -45,6 +45,9 @@ public class UIController : MonoBehaviour {
 	// Update is called once per frame
 	void Update ()
 	{
+		if (treesDestroyed == treesTotal)
+			Application.LoadLevel (3);
+
 		timer += Time.deltaTime;
 		minutes = Mathf.FloorToInt (timer / 60F);
 		seconds = Mathf.FloorToInt (timer - minutes * 60F);
