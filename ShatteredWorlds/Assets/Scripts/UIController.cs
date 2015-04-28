@@ -56,12 +56,19 @@ public class UIController : MonoBehaviour {
 	private int minutes;
 	private int seconds;
 	private int millis;
-	private string niceTime;
+	public string niceTime;
+	private bool sentStats = false;
 	// Update is called once per frame
 	void Update ()
 	{
-		if (treesDestroyed == treesTotal)
-			levelCompleted();
+		if (treesDestroyed == treesTotal) {
+			levelCompleted ();
+			if (!sentStats)
+			{
+				int level = Application.loadedLevel;
+				gameController.GetComponent<GameController> ().SetStatistics(stepsTaken, niceTime, 0, level);
+		    }
+		}
 
 		timer += Time.deltaTime;
 		minutes = Mathf.FloorToInt (timer / 60F);
