@@ -4,8 +4,8 @@ using System.Collections;
 public class MenuController : MonoBehaviour {
 
 	public GameObject arduinoController;
-	private int leftFoot;
-	private int rightFoot;
+	private int leftBump;
+	private int rightBump;
 
 	// Use this for initialization
 	void Start () {
@@ -14,10 +14,10 @@ public class MenuController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		leftFoot = arduinoController.GetComponent<ArduinoController> ().readLeftFootpad (); 
-		rightFoot = arduinoController.GetComponent<ArduinoController> ().readRightFootpad ();
+		leftBump = arduinoController.GetComponent<ArduinoController> ().readLeftFootpad (); 
+		rightBump = arduinoController.GetComponent<ArduinoController> ().readRightFootpad ();
 
-		if (leftFoot == 1 || rightFoot == 1) {
+		if (leftBump == 1 && rightBump == 1) {
 			LoadScene(2);
 		}
 	}
