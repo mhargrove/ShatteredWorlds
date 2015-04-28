@@ -38,7 +38,6 @@ public class MouseLook : MonoBehaviour {
 	private float leftAccelY;
 	private int turn;
 	private float rotationX;
-	private bool fired = false;
 
 	void Update ()
 	{
@@ -49,15 +48,13 @@ public class MouseLook : MonoBehaviour {
 
 		if (rightAccelY > -10000.0f && rightAccelY < 10000.0f) {
 			turnHorizontal = 0;
-		} else if (rightAccelY > 10000.0f)
+		} 
+		else if (rightAccelY > 10000.0f)
 			turnHorizontal = 1;
-		else if (rightAccelY < -10000.0f)
-			turnHorizontal = 1;
+
 
 		if (leftAccelY > -10000.0f && leftAccelY < 10000.0f) 
 			turnVertical = 0;
-		else if (leftAccelY > 10000.0f)
-			turnVertical = -1;
 		else if (leftAccelY < -10000.0f)
 			turnVertical = -1;
 
@@ -73,6 +70,7 @@ public class MouseLook : MonoBehaviour {
 
 		if (axes == RotationAxes.MouseXAndY)
 		{
+			print ("HERE");
 			rotationX = transform.localEulerAngles.y + turn * sensitivityX;
 			
 			rotationY += Input.GetAxis("Mouse Y") * sensitivityY;

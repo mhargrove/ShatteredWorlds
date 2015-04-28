@@ -53,7 +53,6 @@ public class FPSInputController : MonoBehaviour
 		fadeInOut = GameObject.FindGameObjectWithTag ("Fader");
 		audioController = GameObject.Find ("audioController");
 		directionVector = Vector3.zero;
-		time = 0;
 	}
     void Awake()
     {
@@ -80,19 +79,22 @@ public class FPSInputController : MonoBehaviour
 
 
 		//if player stands still for one second, movement logic is reset (left,right,etc. sequence)
-		if (time > 1.5f) {
+		if (timeTilBlackness < 8.0f) {
 			canLeft = true;
 			canRight = true;
 		}
-		if (leftFoot == rightFoot) {
+		if (Input.GetKey (KeyCode.UpArrow)) {
+			vertical = 1;
+		}
+		else if (leftFoot == rightFoot) {
 			vertical = 0;
 		} else if (leftFoot == 1 && canLeft) {
-			vertical = 10;
+			vertical = 1;
 			canLeft = false;
 			canRight = true;
 			UIcontroller.GetComponent<UIController> ().updateStepsTaken ();
 		} else if (rightFoot == 1 && canRight) {
-			vertical = 10;	
+			vertical = 1;	
 			canRight = false;
 			canLeft = true;
 			UIcontroller.GetComponent<UIController> ().updateStepsTaken ();
@@ -112,9 +114,10 @@ public class FPSInputController : MonoBehaviour
 		//Vector3 directionVector = new Vector3 (0, 0, 0);
         if (directionVector != Vector3.zero) {
 			timeTilBlackness = 10;
+
 			if (!fadeInOut.GetComponent<SceneFadeInOut>().sceneStarting){
-			audioController.GetComponent<AudioController> ().stopBlackness();
-			fadeInOut.GetComponent<SceneFadeInOut> ().SuddenClear ();
+				audioController.GetComponent<AudioController> ().stopBlackness();
+				fadeInOut.GetComponent<SceneFadeInOut> ().SuddenClear ();
 			}
 			
 			// Get the length of the directon vector and then normalize it
@@ -131,7 +134,9 @@ public class FPSInputController : MonoBehaviour
 
 			// Multiply the normalized direction vector by the modified length
 			directionVector = directionVector * directionLength;
-			print ("dirVector="+directionVector+" dirLength="+directionLength);
+
+			StartCoroutine(Step (directionVector));
+			time = 0;
 		} 
 		else 
 		{
@@ -147,10 +152,6 @@ public class FPSInputController : MonoBehaviour
 	
 	// Apply the direction to the CharacterMotor 
         //motor.inputMoveDirection = transform.rotation * directionVector;
-		if (directionVector != Vector3.zero) {
-			StartCoroutine (Step (directionVector));
-			time = 0;
-		}
 		time += Time.deltaTime;
         motor.inputJump = Input.GetButton("Jump");
     }
@@ -172,6 +173,8 @@ public class FPSInputController : MonoBehaviour
 		yield return new WaitForSeconds (fireRate);
 		fired = false;
 	}
+
+
 	
 	
 
