@@ -2,10 +2,17 @@
 using System.Collections;
 using Uniduino;
 
+
+
 public class GameController : MonoBehaviour {
 	//level 1
 	public GameObject blackScreen;
-
+	public int LastStepsTaken1;
+	public string TimeCompleted1;
+	public int TreesDestroyed1;
+	public int LastStepsTaken2;
+	public string TimeCompleted2;
+	public int TreesDestroyed2;
 
 
 	public GameObject player;
@@ -44,7 +51,21 @@ public class GameController : MonoBehaviour {
 		player.GetComponent<Rigidbody> ().transform.position = new Vector3 (x, 1.0f, z);
 	}
 
+	public void SetStatistics(int steps, string time, int trees, int level)
+	{
+		if (level == 2) 
+			TimeCompleted1 = time;
+		else if (level == 4)
+			TimeCompleted2 = time;
 
+		}
+	public string GetLevel1Statistics()
+	{
+		return TimeCompleted1;
+	}
 
-
+	public string GetLevel2Statistics()
+	{
+		return TimeCompleted2;
+	}
 }

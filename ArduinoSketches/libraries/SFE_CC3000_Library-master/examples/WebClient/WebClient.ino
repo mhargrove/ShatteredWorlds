@@ -44,9 +44,9 @@ Distributed as-is; no warranty is given.
 #include <SFE_CC3000_Client.h>
 
 // Pins
-#define CC3000_INT      2   // Needs to be an interrupt pin (D2/D3)
-#define CC3000_EN       7   // Can be any digital pin
-#define CC3000_CS       10  // Preferred is pin 10 on Uno
+/*#define*/ int CC3000_INT = 2;   // Needs to be an interrupt pin (D2/D3)
+/*#define*/ int CC3000_EN = 7;   // Can be any digital pin
+/*#define*/ int CC3000_CS = 10;  // Preferred is pin 10 on Uno
 
 // Connection info data lengths
 #define IP_ADDR_LEN     4   // Length of IP address in bytes
