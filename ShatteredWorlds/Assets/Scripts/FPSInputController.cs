@@ -139,7 +139,7 @@ public class FPSInputController : MonoBehaviour
 		} 
 		else 
 		{
-			if (!fadeInOut.GetComponent<SceneFadeInOut> ().sceneStarting) {
+			if (!fadeInOut.GetComponent<SceneFadeInOut> ().sceneStarting && fadeInOut.GetComponent<SceneFadeInOut>().enabled) {
 				timeTilBlackness -= Time.deltaTime;
 				if (timeTilBlackness < 0) {
 					audioController.GetComponent<AudioController> ().playBlackness();
