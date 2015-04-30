@@ -14,8 +14,8 @@ public class MenuController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		leftBump = arduinoController.GetComponent<ArduinoController> ().readLeftFootpad (); 
-		rightBump = arduinoController.GetComponent<ArduinoController> ().readRightFootpad ();
+		leftBump = arduinoController.GetComponent<ArduinoController> ().getLeftBump (); 
+		rightBump = arduinoController.GetComponent<ArduinoController> ().getRightBump ();
 
 		if (leftBump == 1 && rightBump == 1) {
 			LoadScene(2);

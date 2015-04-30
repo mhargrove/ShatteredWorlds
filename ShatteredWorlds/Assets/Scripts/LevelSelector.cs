@@ -36,12 +36,12 @@ public class LevelSelector : MonoBehaviour {
 		string Level1data = gameController.GetComponent<GameController> ().GetLevel1Statistics ();
 		string Level2data = gameController.GetComponent<GameController> ().GetLevel2Statistics ();
 	
-		if (Level1data != "") {
+		if (Level1data != "" || Level1data != level1BestTimes[0]) {
 			level1BestTimes[2] = level1BestTimes[1];
 			level1BestTimes[1] = level1BestTimes[0];
 			level1BestTimes[0] = Level1data;
 		}
-		if (Level2data != "") {
+		if (Level2data != "" || Level1data != level1BestTimes[0]) {
 			level2BestTimes[2] = level2BestTimes[1];
 			level2BestTimes[1] = level2BestTimes[0];
 			level2BestTimes[0] = Level2data;
