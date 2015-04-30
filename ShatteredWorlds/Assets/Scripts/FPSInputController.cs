@@ -84,11 +84,6 @@ public class FPSInputController : MonoBehaviour
 			canRight = true;
 		}
 		if (Input.GetKey (KeyCode.UpArrow)) {
-			if(isStepping){
-				StopCoroutine ("Step");
-				motor.movement.velocity = new Vector3(0f, 0f, 10f);
-			}
-			else
 				vertical = 1;
 		}
 		else if (leftFoot == rightFoot) {
@@ -162,11 +157,15 @@ public class FPSInputController : MonoBehaviour
     }
 
 	IEnumerator Step(Vector3 dir){
+		if (isStepping) {
+			motor.inputMoveDirection = transform.rotation * dir;
+		} else {
 			motor.inputMoveDirection = transform.rotation * dir;
 			isStepping = true; 
 			yield return new WaitForSeconds (0.2f);
 			isStepping = false; 
 			motor.inputMoveDirection = transform.rotation * Vector3.zero;
+		}
 	}
 
 	IEnumerator Shoot(){
