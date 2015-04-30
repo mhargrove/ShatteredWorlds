@@ -69,13 +69,13 @@ public class UIController : MonoBehaviour {
 	void Update ()
 	{
 		if (treesDestroyed == treesTotal) {
-			levelCompleted ();
 			if (!sentStats)
 			{
 				int level = Application.loadedLevel;
 				gameController.GetComponent<GameController> ().SetStatistics(stepsTaken, niceTime, 0, level);
 				sentStats = true;
 			}
+			levelCompleted ();
 		}
 
 		timer += Time.deltaTime;
