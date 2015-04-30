@@ -98,7 +98,7 @@ void loop(void)
 //      digitalWrite(10, HIGH);
 //    else
 //      digitalWrite(10, LOW);
-    if(passes > 7){
+    if(passes > 8){
       l_isBump = false;
       r_isBump = false;
       l_accel_b = 0;

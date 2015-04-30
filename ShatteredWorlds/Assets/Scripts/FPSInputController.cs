@@ -42,6 +42,7 @@ public class FPSInputController : MonoBehaviour
 	private int leftBump;
 	private int rightBump;
 	private bool fired;
+	private bool isStepping; 
 
 	void Start()
 	{
@@ -74,7 +75,7 @@ public class FPSInputController : MonoBehaviour
 		//Debug.Log ("LeftFoot = " + leftFoot + "RightFoot = " + rightFoot + "acceleromenter y = " + moveHorizontal);
 
 		if ((leftBump == 1) && (rightBump == 1) && !fired) {
-			StartCoroutine(Shoot());
+				StartCoroutine(Shoot());
 		}
 
 		//if player stands still for one second, movement logic is reset (left,right,etc. sequence)
@@ -83,7 +84,12 @@ public class FPSInputController : MonoBehaviour
 			canRight = true;
 		}
 		if (Input.GetKey (KeyCode.UpArrow)) {
-			vertical = 1;
+			if(isStepping){
+				StopCoroutine ("Step");
+				motor.movement.velocity = new Vector3(0f, 0f, 10f);
+			}
+			else
+				vertical = 1;
 		}
 		else if (leftFoot == rightFoot) {
 			vertical = 0;
@@ -157,7 +163,9 @@ public class FPSInputController : MonoBehaviour
 
 	IEnumerator Step(Vector3 dir){
 			motor.inputMoveDirection = transform.rotation * dir;
+			isStepping = true; 
 			yield return new WaitForSeconds (0.2f);
+			isStepping = false; 
 			motor.inputMoveDirection = transform.rotation * Vector3.zero;
 	}
 
