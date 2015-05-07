@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 
@@ -73,6 +73,7 @@ public class UIController : MonoBehaviour {
 			{
 				int level = Application.loadedLevel;
 				gameController.GetComponent<GameController> ().SetStatistics(stepsTaken, niceTime, 0, level);
+				//gameController.GetComponent<GameController> ().CalculateScore++;
 				sentStats = true;
 			}
 			levelCompleted ();

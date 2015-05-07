@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using Uniduino;
 
@@ -26,8 +26,8 @@ public class GameController : MonoBehaviour {
 	{
 		Application.targetFrameRate = 30;
 		player = GameObject.FindGameObjectWithTag ("Player");
-		TimeCompleted1 = "";
-		TimeCompleted2 = "";
+		TimeCompleted1 = "00:00:00";
+		TimeCompleted2 = "00:00:00";
 	
 	}
 
@@ -72,5 +72,18 @@ public class GameController : MonoBehaviour {
 		return TimeCompleted2;
 	}
 
-
+	/*public void CalculateScore(int total, int level, int Level1Score, int Level2Score)
+	{
+		Level1Score = 1500;
+		Level2Score = 2500;
+		
+		if (level == 2) {
+			total = Level1Score - (((float)TimeCompleted1/30)*100) + ((LastStepsTaken1/50)*100);
+		}
+		else if (level == 4) {
+			total = Level2Score - (((float)TimeCompleted2/30)*100) + ((LastStepsTaken2/50)*100);
+		}
+		
+		
+	}*/
 }
