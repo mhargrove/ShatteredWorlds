@@ -34,49 +34,51 @@ public class MouseLook : MonoBehaviour {
 
 	private int turnHorizontal;
 	private int turnVertical;
-	private float moveHorizontal;
-	private float moveVertical;
+	private float rightAccelY;
+	private float leftAccelY;
+	private int leftBump;
+	private int rightBump;
 	private int turn;
 	private float rotationX;
-	private bool fired = false;
 
+	public bool canTurn = true;
 	void Update ()
 	{
 		turnHorizontal = 0;
 		turnVertical = 0;
-		moveHorizontal = arduinoController.GetComponent<ArduinoController> ().getRightAccelData ().y;
-		moveVertical = arduinoController.GetComponent<ArduinoController> ().getLeftAccelData ().y;
+		rightAccelY = arduinoController.GetComponent<ArduinoController> ().getRightAccelData ().y;
+		leftAccelY = arduinoController.GetComponent<ArduinoController> ().getLeftAccelData ().y;
+		leftBump = arduinoController.GetComponent<ArduinoController> ().getLeftBump ();
+		rightBump = arduinoController.GetComponent<ArduinoController> ().getRightBump ();
 
-		if (moveHorizontal > -5000.0f && moveHorizontal < 5000.0f) {
+		if (leftBump == 1 && rightBump == 1)
+			StartCoroutine ("isShooting");
+		if (rightAccelY > -10000.0f && rightAccelY < 10000.0f) {
 			turnHorizontal = 0;
-		} else if (moveHorizontal > 5000.0f)
-			turnHorizontal = 1;
-		else if (moveHorizontal < -5000.0f)
+		} 
+		else if (rightAccelY > 10000.0f)
 			turnHorizontal = 1;
 
-		if (moveVertical > -5000.0f && moveVertical < 5000.0f) 
+
+		if (leftAccelY > -10000.0f && leftAccelY < 10000.0f) 
 			turnVertical = 0;
-		else if (moveVertical > 5000.0f)
-			turnVertical = -1;
-		else if (moveVertical < -5000.0f)
+		else if (leftAccelY < -10000.0f)
 			turnVertical = -1;
 
 
 		turn = 0;
-
-		if (turnHorizontal == 0 && turnVertical == 0)
-			turn = 0;
-		else if (turnHorizontal == 1 && turnVertical == 0)
-			turn = 1;
-		else if (turnHorizontal == 0 && turnVertical == -1)
-			turn = -1;
-		else if (turnHorizontal == 1 && turnVertical == -1 && !fired) {
-			//shoot/chop tree down gesture
-			StartCoroutine(Shoot ());
+		if (canTurn) {
+			if (turnHorizontal == 0 && turnVertical == 0)
+				turn = 0;
+			else if (turnHorizontal == 1 && turnVertical == 0)
+				turn = 1;
+			else if (turnHorizontal == 0 && turnVertical == -1)
+				turn = -1;
 		}
 
 		if (axes == RotationAxes.MouseXAndY)
 		{
+			print ("HERE");
 			rotationX = transform.localEulerAngles.y + turn * sensitivityX;
 			
 			rotationY += Input.GetAxis("Mouse Y") * sensitivityY;
@@ -97,17 +99,12 @@ public class MouseLook : MonoBehaviour {
 		}
 	}
 
-	IEnumerator Shoot(){
-		fired = true;
-		yield return new WaitForSeconds (1f);
-		if (Application.loadedLevel == 4)
-			GetComponent<Shoot> ().Fire (2);
-		else
-			GetComponent<Shoot> ().Fire (1);
-		fired = false;
+	IEnumerator isShooting()
+	{	canTurn = false;
+		yield return new WaitForSeconds (0.2f);
+		canTurn = true;
 	}
-
-
+	
 	void Start ()
 	{
 		arduinoController = GameObject.Find ("ArduinoData");

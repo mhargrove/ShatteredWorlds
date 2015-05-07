@@ -38,7 +38,7 @@ public class ObjectController : MonoBehaviour {
 			    audioController.GetComponent<AudioController> ().playTreeExplosionSfx ();
 			else if (gameObject.tag == "Trees2")
 				audioController.GetComponent<AudioController> ().playTree2ExplosionSfx ();
-			if (UIcontroller)
+			if (Application.loadedLevel != 3)
 				UIcontroller.GetComponent<UIController>().updateTreesDestroyed();
 			DestroyClones("Clone", 6.0f);
 			if (collider.gameObject.tag != "Player")

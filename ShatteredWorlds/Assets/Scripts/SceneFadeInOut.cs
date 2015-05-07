@@ -4,7 +4,7 @@ using System.Collections;
 public class SceneFadeInOut : MonoBehaviour {
 
 	public float fadeSpeed = 0.15f;          // Speed that the screen fades to and from black.
-	
+	public bool enabled = true;
 	public CanvasGroup fadeCanvas;
 	public bool sceneStarting = true; 
 	private bool sceneEnding = false;// Whether or not the scene is still fading in.
@@ -14,6 +14,8 @@ public class SceneFadeInOut : MonoBehaviour {
 	}
 	void Start()
 	{
+		if (Application.loadedLevel == 3)
+			enabled = false;
 
 	}
 	
