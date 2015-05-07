@@ -87,7 +87,7 @@ public class MenuController : MonoBehaviour {
 		Application.LoadLevel (level);
 	}
 	public void PlayButtonPressed() {
-		LoadScene (2);
+		LoadScene (3);
 	}
 
 	public void Instructions(string text)
