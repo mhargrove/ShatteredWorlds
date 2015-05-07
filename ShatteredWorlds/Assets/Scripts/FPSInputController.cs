@@ -43,6 +43,12 @@ public class FPSInputController : MonoBehaviour
 	private int rightBump;
 	private bool fired;
 	private bool isStepping; 
+	public float initSpeed = 3.0f;
+	public float currentSpeed; 
+	public float maxSpeed = 15f; 
+//	private int lastStep = 0; 
+//	private int currStep = 0; 
+	bool test = true;
 
 	void Start()
 	{
@@ -80,25 +86,28 @@ public class FPSInputController : MonoBehaviour
 
 		//if player stands still for one second, movement logic is reset (left,right,etc. sequence)
 		if (timeTilBlackness < 8.0f) {
+			currentSpeed = initSpeed;
 			canLeft = true;
 			canRight = true;
 		}
-		if (Input.GetKey (KeyCode.UpArrow)) {
-				vertical = 1;
-		}
-		else if (leftFoot == rightFoot) {
+		if (Input.GetKeyUp (KeyCode.UpArrow)) {
+			vertical = 1;
+		} else if (leftFoot == rightFoot) {
 			vertical = 0;
 		} else if (leftFoot == 1 && canLeft) {
+//			lastStep = -1; 
 			vertical = 1;
 			canLeft = false;
 			canRight = true;
 			UIcontroller.GetComponent<UIController> ().updateStepsTaken ();
 		} else if (rightFoot == 1 && canRight) {
+			//	lastStep = 1; 
 			vertical = 1;	
 			canRight = false;
 			canLeft = true;
 			UIcontroller.GetComponent<UIController> ().updateStepsTaken ();
-		}
+		} else
+			vertical = 0; 
 
 
 		/*if (moveHorizontal > -5000.0f && moveHorizontal < 5000.0f) {
@@ -158,7 +167,12 @@ public class FPSInputController : MonoBehaviour
 
 	IEnumerator Step(Vector3 dir){
 		if (isStepping) {
+//			currStep = lastStep;
+			if(currentSpeed < maxSpeed)
+				currentSpeed++;
+			motor.movement.maxForwardSpeed = currentSpeed;
 			motor.inputMoveDirection = transform.rotation * dir;
+
 		} else {
 			motor.inputMoveDirection = transform.rotation * dir;
 			isStepping = true; 
