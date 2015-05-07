@@ -36,16 +36,23 @@ public class MouseLook : MonoBehaviour {
 	private int turnVertical;
 	private float rightAccelY;
 	private float leftAccelY;
+	private int leftBump;
+	private int rightBump;
 	private int turn;
 	private float rotationX;
 
+	public bool canTurn = true;
 	void Update ()
 	{
 		turnHorizontal = 0;
 		turnVertical = 0;
 		rightAccelY = arduinoController.GetComponent<ArduinoController> ().getRightAccelData ().y;
 		leftAccelY = arduinoController.GetComponent<ArduinoController> ().getLeftAccelData ().y;
+		leftBump = arduinoController.GetComponent<ArduinoController> ().getLeftBump ();
+		rightBump = arduinoController.GetComponent<ArduinoController> ().getRightBump ();
 
+		if (leftBump == 1 && rightBump == 1)
+			StartCoroutine ("isShooting");
 		if (rightAccelY > -10000.0f && rightAccelY < 10000.0f) {
 			turnHorizontal = 0;
 		} 
@@ -60,13 +67,14 @@ public class MouseLook : MonoBehaviour {
 
 
 		turn = 0;
-
-		if (turnHorizontal == 0 && turnVertical == 0)
-			turn = 0;
-		else if (turnHorizontal == 1 && turnVertical == 0)
-			turn = 1;
-		else if (turnHorizontal == 0 && turnVertical == -1)
-			turn = -1;
+		if (canTurn) {
+			if (turnHorizontal == 0 && turnVertical == 0)
+				turn = 0;
+			else if (turnHorizontal == 1 && turnVertical == 0)
+				turn = 1;
+			else if (turnHorizontal == 0 && turnVertical == -1)
+				turn = -1;
+		}
 
 		if (axes == RotationAxes.MouseXAndY)
 		{
@@ -89,6 +97,12 @@ public class MouseLook : MonoBehaviour {
 			
 			transform.localEulerAngles = new Vector3(-rotationY, transform.localEulerAngles.y, 0);
 		}
+	}
+
+	IEnumerator isShooting()
+	{	canTurn = false;
+		yield return new WaitForSeconds (0.2f);
+		canTurn = true;
 	}
 	
 	void Start ()

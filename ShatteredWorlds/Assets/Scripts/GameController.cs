@@ -24,6 +24,7 @@ public class GameController : MonoBehaviour {
 
 	void Start()
 	{
+		Application.targetFrameRate = 30;
 		player = GameObject.FindGameObjectWithTag ("Player");
 		TimeCompleted1 = "";
 		TimeCompleted2 = "";
@@ -70,4 +71,6 @@ public class GameController : MonoBehaviour {
 	{
 		return TimeCompleted2;
 	}
+
+
 }
